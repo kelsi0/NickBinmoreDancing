@@ -25,7 +25,7 @@ export default function CalendarPage() {
             <div className="w-full rounded-lg overflow-hidden shadow-lg bg-white">
               <iframe
                 title="Google Calendar"
-                src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=Europe%2FLondon&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0"
+                src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Europe%2FLondon&showPrint=0&src=bmlja2Jpbm1vcmVkYW5jaW5nQGdtYWlsLmNvbQ&src=ZW4tZ2IudWsjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23039be5&color=%230b8043"
                 style={{ border: 0 }}
                 width="100%"
                 height="600"
@@ -33,16 +33,6 @@ export default function CalendarPage() {
                 scrolling="no"
                 className="w-full"
               ></iframe>
-            </div>
-
-            <div className="mt-6 p-4 bg-muted rounded-lg">
-              <p className="text-sm text-muted-foreground">
-                <strong>Note for client:</strong> To update this calendar,
-                replace the iframe src URL with your own Google Calendar embed
-                code. You can get this from Google Calendar by going to Settings
-                → Your Calendar → Integrate Calendar → Customize and copy the
-                iframe code.
-              </p>
             </div>
           </div>
         </section>

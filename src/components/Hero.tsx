@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface HeroProps {
-  tagLine: string;
+  tagLine?: string;
   title: string;
   description: string;
   primaryButtonText?: string;
@@ -32,9 +32,11 @@ export default function Hero({
     <section className="hero">
       <div className="container flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="flex-1 max-w-2xl">
-          <p className="text-[1.5rem] font-semibold text-primary mb-3 tracking-wide">
-            {tagLine}
-          </p>
+          {tagLine && (
+            <p className="text-[1.5rem] font-semibold text-primary mb-3 tracking-wide">
+              {tagLine}
+            </p>
+          )}
           <h1 className="text-[2.5rem] md:text-[3rem] font-bold mb-4 leading-tight text-hero-dark">
             {title}
           </h1>
