@@ -1,13 +1,13 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import SectionTitle from "@/components/SectionTitle";
 
-export default function ContactPage() {
+function ContactForm() {
   const searchParams = useSearchParams();
   const lessonQuery = searchParams.get("lesson");
 
@@ -69,6 +69,118 @@ export default function ContactPage() {
   };
 
   return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Name Field */}
+      <div>
+        <label
+          htmlFor="name"
+          className="block text-sm font-medium mb-2"
+        >
+          Name <span className="text-primary">*</span>
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+          placeholder="Your name"
+        />
+      </div>
+
+      {/* Email Field */}
+      <div>
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium mb-2"
+        >
+          Email <span className="text-primary">*</span>
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+          placeholder="your.email@example.com"
+        />
+      </div>
+
+      {/* Phone Field (Optional) */}
+      <div>
+        <label
+          htmlFor="phone"
+          className="block text-sm font-medium mb-2"
+        >
+          Phone Number{" "}
+          <span className="text-muted-foreground text-xs">
+            (optional)
+          </span>
+        </label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+          placeholder="Your phone number"
+        />
+      </div>
+
+      {/* Message Field */}
+      <div>
+        <label
+          htmlFor="message"
+          className="block text-sm font-medium mb-2"
+        >
+          Message <span className="text-primary">*</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          required
+          rows={6}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-vertical"
+          placeholder="Tell us about your interest in dancing lessons..."
+        />
+      </div>
+
+      {/* Submit Button */}
+      <div>
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? "Sending..." : "Send Message"}
+        </button>
+      </div>
+
+      {/* Status Message */}
+      {submitStatus.type && (
+        <div
+          className={`p-4 rounded-lg ${
+            submitStatus.type === "success"
+              ? "bg-green-100 text-green-800 border border-green-200"
+              : "bg-red-100 text-red-800 border border-red-200"
+          }`}
+        >
+          {submitStatus.message}
+        </div>
+      )}
+    </form>
+  );
+}
+
+export default function ContactPage() {
+  return (
     <>
       <Navbar />
       <main className="bg-background text-foreground font-sans">
@@ -85,113 +197,9 @@ export default function ContactPage() {
           <SectionTitle title="Send a message" />
 
           <div className="mt-8 max-w-2xl">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name Field */}
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Name <span className="text-primary">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                  placeholder="Your name"
-                />
-              </div>
-
-              {/* Email Field */}
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Email <span className="text-primary">*</span>
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                  placeholder="your.email@example.com"
-                />
-              </div>
-
-              {/* Phone Field (Optional) */}
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Phone Number{" "}
-                  <span className="text-muted-foreground text-xs">
-                    (optional)
-                  </span>
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                  placeholder="Your phone number"
-                />
-              </div>
-
-              {/* Message Field */}
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Message <span className="text-primary">*</span>
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-vertical"
-                  placeholder="Tell us about your interest in dancing lessons..."
-                />
-              </div>
-
-              {/* Submit Button */}
-              <div>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? "Sending..." : "Send Message"}
-                </button>
-              </div>
-
-              {/* Status Message */}
-              {submitStatus.type && (
-                <div
-                  className={`p-4 rounded-lg ${
-                    submitStatus.type === "success"
-                      ? "bg-green-100 text-green-800 border border-green-200"
-                      : "bg-red-100 text-red-800 border border-red-200"
-                  }`}
-                >
-                  {submitStatus.message}
-                </div>
-              )}
-            </form>
+            <Suspense fallback={<div className="text-center py-8">Loading form...</div>}>
+              <ContactForm />
+            </Suspense>
           </div>
         </section>
       </main>
