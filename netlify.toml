@@ -1,0 +1,7 @@
+[build]
+command = "npm run build"
+publish = ".next"
+
+[functions.environment]
+CONTENTFUL_ACCESS_TOKEN = ""
+CONTENTFUL_SPACE_ID = ""
