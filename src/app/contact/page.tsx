@@ -193,7 +193,7 @@ export default function ContactPage() {
           secondaryButtonHref="/contact"
         />
 
-        <section className="container py-12 md:py-16">
+        <section className="section-container">
           <SectionTitle title="Send a message" />
 
           <div className="mt-8 max-w-2xl">

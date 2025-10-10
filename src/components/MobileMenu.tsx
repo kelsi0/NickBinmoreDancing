@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { FC } from "react";
 
 interface MobileMenuProps {
@@ -9,25 +10,33 @@ interface MobileMenuProps {
 }
 
 const MobileMenu: FC<MobileMenuProps> = ({ links, onClose }) => {
+  const pathname = usePathname();
+
   return (
-    <div className="md:hidden bg-background border-t border-gray-200 py-6 px-4 space-y-4">
-      {links.map((link) => (
+    <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-lg">
+      <div className="container py-6 space-y-4">
+        {links.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            onClick={onClose}
+            className={`block text-base font-medium hover:text-primary transition-colors py-2 ${
+              pathname === link.href
+                ? "text-primary font-semibold"
+                : "text-foreground"
+            }`}
+          >
+            {link.label}
+          </Link>
+        ))}
         <Link
-          key={link.href}
-          href={link.href}
+          href="/contact"
           onClick={onClose}
-          className="block text-body font-medium hover:text-primary"
+          className="btn btn-primary w-full mt-4 text-center inline-block"
         >
-          {link.label}
+          Contact Us
         </Link>
-      ))}
-      <Link
-        href="/contact"
-        onClick={onClose}
-        className="btn btn-primary w-full mt-4 text-center"
-      >
-        Book now
-      </Link>
+      </div>
     </div>
   );
 };

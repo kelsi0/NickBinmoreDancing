@@ -20,7 +20,7 @@ export default function HomePage() {
           secondaryButtonHref="/contact"
         />
 
-        <section className="container py-12 md:py-16">
+        <section className="section-container">
           <SectionTitle title="Popular lessons" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-8">
             <LessonCard

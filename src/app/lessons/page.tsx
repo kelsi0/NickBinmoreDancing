@@ -14,14 +14,48 @@ export default function LessonsPage() {
         <Hero
           title="Lessons & Pricing"
           description="Clear paths for every level. Choose a course or book private coaching."
-          primaryButtonText="Book now"
+          primaryButtonText="Contact Us"
           primaryButtonHref="/contact"
-          secondaryButtonText="Contact us"
-          secondaryButtonHref="/contact"
         />
 
+        {/* Course Details Section */}
+        <section className="section-container bg-light-bg">
+          <div className="max-w-3xl">
+            <h2 className="text-h2 mb-6">General Information</h2>
+            <div className="space-y-6 text-[0.9375rem] leading-relaxed">
+              <div>
+                <h3 className="font-semibold text-[1.125rem] mb-2">
+                  Duration & Schedule
+                </h3>
+                <p className="text-muted">
+                  Most courses run for 6 weeks with weekly 90-minute sessions.
+                  Check the calendar for specific dates and times.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-[1.125rem] mb-2">
+                  What to Bring
+                </h3>
+                <p className="text-muted">
+                  Comfortable clothing and dance shoes (or smooth-soled shoes).
+                  No partner required for group courses.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-[1.125rem] mb-2">
+                  Booking & Payment
+                </h3>
+                <p className="text-muted">
+                  Secure your place online or contact us for more information.
+                  Full payment required at booking.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Group Courses Section */}
-        <section className="container py-12 md:py-16">
+        <section className="section-container">
           <SectionTitle title="Group Courses" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-8">
             <LessonCard
@@ -46,7 +80,7 @@ export default function LessonsPage() {
         </section>
 
         {/* Private Lessons Section */}
-        <section className="container py-12 md:py-16">
+        <section className="section-container">
           <SectionTitle title="Private Lessons" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-8">
             <LessonCard
@@ -64,7 +98,7 @@ export default function LessonsPage() {
         </section>
 
         {/* Detailed Lesson Information */}
-        <section className="container py-12 md:py-16 bg-muted/30">
+        <section className="section-container bg-muted/30">
           <SectionTitle title="Lesson Details" />
 
           {/* Absolute Beginners Detail */}
@@ -329,43 +363,6 @@ export default function LessonsPage() {
             </div>
           </div>
         </section>
-
-        {/* Course Details Section */}
-        <section className="container py-12 md:py-16 bg-light-bg">
-          <div className="max-w-3xl">
-            <h2 className="text-h2 mb-6">General Information</h2>
-            <div className="space-y-6 text-[0.9375rem] leading-relaxed">
-              <div>
-                <h3 className="font-semibold text-[1.125rem] mb-2">
-                  Duration & Schedule
-                </h3>
-                <p className="text-muted">
-                  Most courses run for 6 weeks with weekly 90-minute sessions.
-                  Check the calendar for specific dates and times.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-[1.125rem] mb-2">
-                  What to Bring
-                </h3>
-                <p className="text-muted">
-                  Comfortable clothing and dance shoes (or smooth-soled shoes).
-                  No partner required for group courses.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-[1.125rem] mb-2">
-                  Booking & Payment
-                </h3>
-                <p className="text-muted">
-                  Secure your place online or contact us for more information.
-                  Full payment required at booking.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <Footer />
       </main>
     </>

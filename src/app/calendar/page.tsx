@@ -19,9 +19,7 @@ export default function CalendarPage() {
           secondaryButtonHref="/contact"
         />
 
-        <section className="container py-12 md:py-16">
-          <SectionTitle title="Upcoming Highlights" />
-
+        <section className="section-container">
           <div className="mt-8">
             {/* Google Calendar Embed - Client can replace this with their own calendar */}
             <div className="w-full rounded-lg overflow-hidden shadow-lg bg-white">

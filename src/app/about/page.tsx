@@ -11,7 +11,7 @@ export default function AboutPage() {
       <Navbar />
       <main className="bg-background text-foreground font-sans">
         <Hero
-          title="About Castle School of Dancing"
+          title="About Nick Binmore Dancing"
           description="A welcoming studio teaching ballroom, latin and social dance."
           primaryButtonText="See lessons"
           primaryButtonHref="/lessons"
@@ -20,12 +20,12 @@ export default function AboutPage() {
         />
 
         {/* Our Story Section */}
-        <section className="container py-12 md:py-16">
+        <section className="section-container">
           <SectionTitle title="Our Story" />
           <div className="mt-6 max-w-4xl">
             <p className="text-base md:text-lg leading-relaxed text-foreground">
               Founded by a qualified instructor with medal test experience,
-              Castle School of Dancing blends traditional technique with modern
+              Nick Binmore Dancing blends traditional technique with modern
               teaching. We focus on fundamentals—posture, timing, and
               partnership—so you feel confident on any floor.
             </p>
@@ -33,7 +33,7 @@ export default function AboutPage() {
         </section>
 
         {/* Values Section */}
-        <section className="container py-12 md:py-16 bg-muted/30">
+        <section className="section-container bg-muted/30">
           <div className="max-w-4xl">
             <h2 className="text-3xl md:text-4xl font-bold mb-8">Values</h2>
             <ul className="space-y-4">

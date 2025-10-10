@@ -21,15 +21,15 @@ export default function Navbar() {
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
       <nav className="container flex items-center justify-between py-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-2 md:gap-3">
           <Image
-            width="360"
-            height="360"
+            width="48"
+            height="48"
             src="/logo.png"
             alt="Nick Binmore Dancing"
-            className="h-12 w-auto"
+            className="h-10 w-10 md:h-12 md:w-12 object-contain flex-shrink-0"
           />
-          <span className="font-bold text-[1.125rem] text-foreground">
+          <span className="text-sm md:text-[1.125rem] text-foreground leading-tight">
             Nick Binmore Dancing
           </span>
         </Link>
@@ -52,7 +52,7 @@ export default function Navbar() {
           ))}
           <li>
             <Link href="/contact" className="btn btn-primary ml-2">
-              Book now
+              Contact Us
             </Link>
           </li>
         </ul>
@@ -92,7 +92,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {menuOpen && (
-          <MobileMenu onClose={() => setMenuOpen(false)} links={[]} />
+          <MobileMenu onClose={() => setMenuOpen(false)} links={navLinks} />
         )}
       </nav>
     </header>
