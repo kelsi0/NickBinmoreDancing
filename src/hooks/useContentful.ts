@@ -1,18 +1,41 @@
-import { useEffect, useState } from "react";
-import { contentfulClient } from "@/lib/contentful";
+import { useState, useEffect } from 'react';
 
-export function useContentful(contentType: string) {
-  const [data, setData] = useState<any>(null);
+export function useContentful(
+  contentType: string,
+  fieldName?: string,
+  fieldValue?: string
+) {
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    contentfulClient
-      .getEntries({ content_type: contentType })
-      .then((entries) => setData(entries.items))
-      .catch(setError)
-      .finally(() => setLoading(false));
-  }, [contentType]);
+    async function fetchContent() {
+      try {
+        setLoading(true);
+        let url = `/api/content?content_type=${contentType}`;
+
+        if (fieldName && fieldValue) {
+          url += `&field_name=${fieldName}&field_value=${encodeURIComponent(fieldValue)}`;
+        }
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch content');
+        }
+
+        const result = await response.json();
+        setData(result);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchContent();
+  }, [contentType, fieldName, fieldValue]);
 
   return { data, loading, error };
 }

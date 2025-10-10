@@ -5,15 +5,16 @@ import Hero from "@/components/Hero";
 import LessonCard from "@/components/LessonCard";
 import Navbar from "@/components/Navbar";
 import SectionTitle from "@/components/SectionTitle";
-import {useContentful} from "@/hooks/useContentful";
+import { useContentful } from "@/hooks/useContentful";
 
 export default function HomePage() {
-  const { data, loading, error } = useContentful("page");
+  const { data, loading, error } = useContentful("page", "pageTitle", "Home");
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading content.</div>;
 
-  const heroContent = data?.[0]?.fields.hero.fields;
+  // @ts-ignore
+  const heroContent = data.items[0]?.fields.hero.fields;
 
   console.log(heroContent);
 
