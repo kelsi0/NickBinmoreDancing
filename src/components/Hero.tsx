@@ -73,6 +73,8 @@ export default function Hero({
         {showLogo && (
           <div className="flex-1 flex justify-center md:justify-end">
             <Image
+              width="360"
+              height="360"
               src="/logo.png"
               alt="Nick Binmore Dancing"
               className="max-w-[280px] md:max-w-[360px] h-auto"

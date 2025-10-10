@@ -23,6 +23,8 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
           <Image
+            width="360"
+            height="360"
             src="/logo.png"
             alt="Nick Binmore Dancing"
             className="h-12 w-auto"
