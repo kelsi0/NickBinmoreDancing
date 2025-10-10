@@ -8,13 +8,19 @@ import SectionTitle from "@/components/SectionTitle";
 import { useContentful } from "@/hooks/useContentful";
 
 export default function HomePage() {
-  const { data, loading, error } = useContentful("page", "pageTitle", "Home");
+  const { data, loading, error } = useContentful("page", "pageTitle", "Home", {
+    include: 2,
+  });
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading content.</div>;
 
   // @ts-expect-error
   const heroContent = data.items[0]?.fields.hero.fields;
+  // @ts-expect-error
+  const sectionContent = data.items[0]?.fields.section.fields;
+  // @ts-expect-error
+  const sectionContentCards = data.items[0]?.fields.section.fields.content;
 
   return (
     <>
@@ -30,25 +36,22 @@ export default function HomePage() {
           secondaryButtonHref={heroContent.secondaryButtonHref}
         />
 
-        <section className="section-container">
-          <SectionTitle title="Popular lessons" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-8">
-            <LessonCard
-              title="Beginner Course"
-              description="Six-week course covering Waltz, Cha Cha, and Jive basics. No partner required."
-              badge="New"
-            />
-            <LessonCard
-              title="Wedding First Dance"
-              description="Personalised choreography and coaching to make your moment unforgettable."
-              badge="Bespoke"
-            />
-            <LessonCard
-              title="Private Coaching"
-              description="One-to-one sessions to accelerate progress and polish technique for exams or socials."
-            />
-          </div>
-        </section>
+        {sectionContent && (
+          <section className="section-container">
+            <SectionTitle title={sectionContent.sectionTitle} />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-8">
+              {sectionContentCards &&
+                sectionContentCards.map((card: any) => (
+                  <LessonCard
+                    key={card.sys.id}
+                    title={card.fields.title}
+                    description={card.fields.description}
+                    badge={card.fields.tag}
+                  />
+                ))}
+            </div>
+          </section>
+        )}
 
         <Footer />
       </main>

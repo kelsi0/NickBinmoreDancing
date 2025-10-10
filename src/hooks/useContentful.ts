@@ -4,6 +4,7 @@ export function useContentful(
   contentType: string,
   fieldName?: string,
   fieldValue?: string,
+  options?: { include?: number },
 ) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,6 +18,10 @@ export function useContentful(
 
         if (fieldName && fieldValue) {
           url += `&field_name=${fieldName}&field_value=${encodeURIComponent(fieldValue)}`;
+        }
+
+        if (options?.include !== undefined) {
+          url += `&include=${options.include}`;
         }
 
         const response = await fetch(url);
@@ -35,7 +40,7 @@ export function useContentful(
     }
 
     fetchContent();
-  }, [contentType, fieldName, fieldValue]);
+  }, [contentType, fieldName, fieldValue, options?.include]);
 
   return { data, loading, error };
 }

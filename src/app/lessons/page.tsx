@@ -24,10 +24,10 @@ export default function LessonsPage() {
           tagLine={heroContent.tagLine}
           title={heroContent.title}
           description={heroContent.subtitle}
-          primaryButtonText={heroContent.primaryButtonText}
-          primaryButtonHref={heroContent.primaryButtonHref}
-          secondaryButtonText={heroContent.secondaryButtonText}
-          secondaryButtonHref={heroContent.secondaryButtonHref}
+          primaryButtonText={heroContent.primaryButtonText ?? null}
+          primaryButtonHref={heroContent.primaryButtonHref ?? null}
+          secondaryButtonText={heroContent.secondaryButtonText ?? null}
+          secondaryButtonHref={heroContent.secondaryButtonHref ?? null}
         />
 
         {/* Course Details Section */}

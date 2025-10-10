@@ -10,6 +10,8 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@contentful/rich-text-react-renderer": "^16.1.5",
+    "@contentful/rich-text-types": "^17.2.4",
     "contentful": "^11.8.5",
     "next": "15.5.4",
     "react": "19.1.0",

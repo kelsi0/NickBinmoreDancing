@@ -7,6 +7,7 @@ export async function GET(request: NextRequest) {
     const contentType = searchParams.get("content_type");
     const fieldName = searchParams.get("field_name");
     const fieldValue = searchParams.get("field_value");
+    const include = searchParams.get("include");
 
     if (!contentType) {
       return NextResponse.json(
@@ -22,6 +23,14 @@ export async function GET(request: NextRequest) {
     // Add field filter if provided
     if (fieldName && fieldValue) {
       query[`fields.${fieldName}`] = fieldValue;
+    }
+
+    // Add include parameter if provided
+    if (include) {
+      const includeLevel = parseInt(include, 10);
+      if (!isNaN(includeLevel) && includeLevel >= 0 && includeLevel <= 10) {
+        query.include = includeLevel;
+      }
     }
 
     const entries = await contentfulClient.getEntries(query);

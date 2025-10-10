@@ -1,5 +1,6 @@
 "use client";
 
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import Link from "next/link";
 import type { FC } from "react";
 
@@ -16,7 +17,6 @@ const LessonCard: FC<LessonCardProps> = ({
   badge,
   href = "/contact",
 }) => {
-  // Check if it's an anchor link (hash link)
   const isAnchorLink = href.includes("#");
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -30,15 +30,22 @@ const LessonCard: FC<LessonCardProps> = ({
     }
   };
 
+  const renderDescription = () => {
+    if (typeof description === "string") {
+      return <p>{description}</p>;
+    }
+    return documentToReactComponents(description);
+  };
+
   return (
     <div className="card flex flex-col h-full">
       <div className="min-h-[2rem] mb-4">
         {badge && <span className="badge">{badge}</span>}
       </div>
       <h3 className="text-[1.375rem] font-bold mb-3">{title}</h3>
-      <p className="text-[0.9375rem] text-muted mb-6 flex-grow leading-relaxed">
-        {description}
-      </p>
+      <div className="text-[0.9375rem] text-muted mb-6 flex-grow leading-relaxed">
+        {renderDescription()}
+      </div>
       {isAnchorLink ? (
         <a
           href={href}
