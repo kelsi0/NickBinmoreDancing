@@ -1,4 +1,5 @@
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import type { Document } from "@contentful/rich-text-types";
 import type { FC } from "react";
 
 interface DetailedCardProps {
@@ -16,7 +17,7 @@ const DetailedCard: FC<DetailedCardProps> = ({
   buttonText,
   buttonHref,
 }) => {
-  const renderBody = (value) => {
+  const renderBody = (value: string | Document) => {
     if (typeof value === "string") {
       return <p>{value}</p>;
     }

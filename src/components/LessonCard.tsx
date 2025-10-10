@@ -1,13 +1,14 @@
 "use client";
 
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import type { Document } from "@contentful/rich-text-types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
 
 interface LessonCardProps {
   title: string;
-  description: string;
+  description: string | Document;
   badge?: string;
   href?: string;
 }
@@ -18,7 +19,6 @@ const LessonCard: FC<LessonCardProps> = ({
   badge,
   href,
 }) => {
-  console.log(title + " href: " + href);
   const router = useRouter();
   const isAnchorLink = href ? href.includes("#") : false;
 

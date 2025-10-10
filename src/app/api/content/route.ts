@@ -28,7 +28,11 @@ export async function GET(request: NextRequest) {
     // Add include parameter if provided
     if (include) {
       const includeLevel = parseInt(include, 10);
-      if (!isNaN(includeLevel) && includeLevel >= 0 && includeLevel <= 10) {
+      if (
+        !Number.isNaN(includeLevel) &&
+        includeLevel >= 0 &&
+        includeLevel <= 10
+      ) {
         query.include = includeLevel;
       }
     }

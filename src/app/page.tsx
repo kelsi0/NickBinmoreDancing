@@ -6,6 +6,7 @@ import LessonCard from "@/components/LessonCard";
 import Navbar from "@/components/Navbar";
 import SectionTitle from "@/components/SectionTitle";
 import { useContentful } from "@/hooks/useContentful";
+import type { LessonCardContent, Section } from "@/types/contentful";
 
 export default function HomePage() {
   const { data, loading, error } = useContentful("page", "pageTitle", "Home", {
@@ -19,10 +20,6 @@ export default function HomePage() {
   const heroContent = data.items[0]?.fields.hero.fields;
   // @ts-expect-error
   const sectionContent = data.items[0]?.fields.sections;
-  // @ts-expect-error
-  const sectionContentCards = data.items[0]?.fields.sections?.fields?.content;
-
-  console.log(sectionContent);
 
   return (
     <>
@@ -38,26 +35,24 @@ export default function HomePage() {
           secondaryButtonHref={heroContent.secondaryButtonHref}
         />
 
-        {sectionContent &&
-          sectionContent.map((section) => (
-            <section
-              key={section.fields.sectionTitle}
-              className="section-container"
-            >
-              <SectionTitle title={section.fields.sectionTitle} />
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-8">
-                {section.fields.content &&
-                  section.fields.content.map((card: any) => (
-                    <LessonCard
-                      key={card.sys.id}
-                      title={card.fields.title}
-                      description={card.fields.description}
-                      badge={card.fields.tag}
-                    />
-                  ))}
-              </div>
-            </section>
-          ))}
+        {sectionContent?.map((section: Section) => (
+          <section
+            key={section.fields.sectionTitle}
+            className="section-container"
+          >
+            <SectionTitle title={section.fields.sectionTitle} />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-8">
+              {section.fields.content?.map((card: LessonCardContent) => (
+                <LessonCard
+                  key={card.sys.id}
+                  title={card.fields.title}
+                  description={card.fields.description}
+                  badge={card.fields.tag}
+                />
+              ))}
+            </div>
+          </section>
+        ))}
 
         <Footer />
       </main>
