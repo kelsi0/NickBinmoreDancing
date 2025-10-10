@@ -1,17 +1,17 @@
-import { contentfulClient } from '@/lib/contentful';
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from "next/server";
+import { contentfulClient } from "@/lib/contentful";
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const contentType = searchParams.get('content_type');
-    const fieldName = searchParams.get('field_name');
-    const fieldValue = searchParams.get('field_value');
+    const contentType = searchParams.get("content_type");
+    const fieldName = searchParams.get("field_name");
+    const fieldValue = searchParams.get("field_value");
 
     if (!contentType) {
       return NextResponse.json(
-        { error: 'content_type parameter is required' },
-        { status: 400 }
+        { error: "content_type parameter is required" },
+        { status: 400 },
       );
     }
 
@@ -28,10 +28,10 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(entries);
   } catch (error) {
-    console.error('Contentful API error:', error);
+    console.error("Contentful API error:", error);
     return NextResponse.json(
-      { error: 'Failed to fetch content from Contentful' },
-      { status: 500 }
+      { error: "Failed to fetch content from Contentful" },
+      { status: 500 },
     );
   }
 }

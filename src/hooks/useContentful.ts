@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
 
 export function useContentful(
   contentType: string,
   fieldName?: string,
-  fieldValue?: string
+  fieldValue?: string,
 ) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,13 +22,13 @@ export function useContentful(
         const response = await fetch(url);
 
         if (!response.ok) {
-          throw new Error('Failed to fetch content');
+          throw new Error("Failed to fetch content");
         }
 
         const result = await response.json();
         setData(result);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
+        setError(err instanceof Error ? err.message : "Unknown error");
       } finally {
         setLoading(false);
       }

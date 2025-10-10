@@ -25,10 +25,10 @@ export default function AboutPage() {
           <SectionTitle title="Our Story" />
           <div className="mt-6 max-w-4xl">
             <p className="text-base md:text-lg leading-relaxed text-foreground">
-              Founded by a qualified instructor with medal test experience,
-              Nick Binmore Dancing blends traditional technique with modern
-              teaching. We focus on fundamentals—posture, timing, and
-              partnership—so you feel confident on any floor.
+              Founded by a qualified instructor with medal test experience, Nick
+              Binmore Dancing blends traditional technique with modern teaching.
+              We focus on fundamentals—posture, timing, and partnership—so you
+              feel confident on any floor.
             </p>
           </div>
         </section>

@@ -13,7 +13,7 @@ export default function HomePage() {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading content.</div>;
 
-  // @ts-ignore
+  // @ts-expect-error
   const heroContent = data.items[0]?.fields.hero.fields;
 
   console.log(heroContent);

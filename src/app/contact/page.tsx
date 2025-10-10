@@ -72,10 +72,7 @@ function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Name Field */}
       <div>
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium mb-2"
-        >
+        <label htmlFor="name" className="block text-sm font-medium mb-2">
           Name <span className="text-primary">*</span>
         </label>
         <input
@@ -92,10 +89,7 @@ function ContactForm() {
 
       {/* Email Field */}
       <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium mb-2"
-        >
+        <label htmlFor="email" className="block text-sm font-medium mb-2">
           Email <span className="text-primary">*</span>
         </label>
         <input
@@ -112,14 +106,9 @@ function ContactForm() {
 
       {/* Phone Field (Optional) */}
       <div>
-        <label
-          htmlFor="phone"
-          className="block text-sm font-medium mb-2"
-        >
+        <label htmlFor="phone" className="block text-sm font-medium mb-2">
           Phone Number{" "}
-          <span className="text-muted-foreground text-xs">
-            (optional)
-          </span>
+          <span className="text-muted-foreground text-xs">(optional)</span>
         </label>
         <input
           type="tel"
@@ -134,10 +123,7 @@ function ContactForm() {
 
       {/* Message Field */}
       <div>
-        <label
-          htmlFor="message"
-          className="block text-sm font-medium mb-2"
-        >
+        <label htmlFor="message" className="block text-sm font-medium mb-2">
           Message <span className="text-primary">*</span>
         </label>
         <textarea
@@ -197,7 +183,9 @@ export default function ContactPage() {
           <SectionTitle title="Send a message" />
 
           <div className="mt-8 max-w-2xl">
-            <Suspense fallback={<div className="text-center py-8">Loading form...</div>}>
+            <Suspense
+              fallback={<div className="text-center py-8">Loading form...</div>}
+            >
               <ContactForm />
             </Suspense>
           </div>

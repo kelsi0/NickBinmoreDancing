@@ -166,10 +166,10 @@
 }
 
 .section-title {
-    font-size: var(--font-size-h3);
-    font-weight: 700;
-    color: var(--color-background);
-    margin-bottom: 1rem;
+  font-size: var(--font-size-h3);
+  font-weight: 700;
+  color: var(--color-background);
+  margin-bottom: 1rem;
 }
 
 .section-container {
