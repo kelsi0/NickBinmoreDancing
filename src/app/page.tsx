@@ -18,9 +18,11 @@ export default function HomePage() {
   // @ts-expect-error
   const heroContent = data.items[0]?.fields.hero.fields;
   // @ts-expect-error
-  const sectionContent = data.items[0]?.fields.section.fields;
+  const sectionContent = data.items[0]?.fields.sections;
   // @ts-expect-error
-  const sectionContentCards = data.items[0]?.fields.section.fields.content;
+  const sectionContentCards = data.items[0]?.fields.sections?.fields?.content;
+
+  console.log(sectionContent);
 
   return (
     <>
@@ -36,22 +38,26 @@ export default function HomePage() {
           secondaryButtonHref={heroContent.secondaryButtonHref}
         />
 
-        {sectionContent && (
-          <section className="section-container">
-            <SectionTitle title={sectionContent.sectionTitle} />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-8">
-              {sectionContentCards &&
-                sectionContentCards.map((card: any) => (
-                  <LessonCard
-                    key={card.sys.id}
-                    title={card.fields.title}
-                    description={card.fields.description}
-                    badge={card.fields.tag}
-                  />
-                ))}
-            </div>
-          </section>
-        )}
+        {sectionContent &&
+          sectionContent.map((section) => (
+            <section
+              key={section.fields.sectionTitle}
+              className="section-container"
+            >
+              <SectionTitle title={section.fields.sectionTitle} />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-8">
+                {section.fields.content &&
+                  section.fields.content.map((card: any) => (
+                    <LessonCard
+                      key={card.sys.id}
+                      title={card.fields.title}
+                      description={card.fields.description}
+                      badge={card.fields.tag}
+                    />
+                  ))}
+              </div>
+            </section>
+          ))}
 
         <Footer />
       </main>

@@ -2,6 +2,7 @@
 
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { FC } from "react";
 
 interface LessonCardProps {
@@ -15,17 +16,26 @@ const LessonCard: FC<LessonCardProps> = ({
   title,
   description,
   badge,
-  href = "/contact",
+  href,
 }) => {
-  const isAnchorLink = href.includes("#");
+  console.log(title + " href: " + href);
+  const router = useRouter();
+  const isAnchorLink = href ? href.includes("#") : false;
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (isAnchorLink) {
+    if (isAnchorLink && href) {
       e.preventDefault();
-      const targetId = href.split("#")[1];
-      const element = document.getElementById(targetId);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      const [path, hash] = href.split("#");
+
+      // If it's a different page, navigate then scroll
+      if (path && path !== window.location.pathname) {
+        router.push(href);
+      } else {
+        // Same page, just scroll
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       }
     }
   };
@@ -46,22 +56,13 @@ const LessonCard: FC<LessonCardProps> = ({
       <div className="text-[0.9375rem] text-muted mb-6 flex-grow leading-relaxed">
         {renderDescription()}
       </div>
-      {isAnchorLink ? (
-        <a
-          href={href}
-          onClick={handleClick}
-          className="btn btn-primary w-full md:w-fit"
-        >
-          Learn more
-        </a>
-      ) : (
-        <Link
-          href={`${href}?lesson=${encodeURIComponent(title)}`}
-          className="btn btn-primary w-full md:w-fit"
-        >
-          Learn more
-        </Link>
-      )}
+      <Link
+        href={href || `/contact?lesson=${encodeURIComponent(title)}`}
+        onClick={handleClick}
+        className="btn btn-primary w-full md:w-fit"
+      >
+        Learn more
+      </Link>
     </div>
   );
 };
