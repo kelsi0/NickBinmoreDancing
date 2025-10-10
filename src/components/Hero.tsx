@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface HeroProps {
+  tagLine: string;
   title: string;
   description: string;
   primaryButtonText?: string;
@@ -16,6 +17,7 @@ interface HeroProps {
 }
 
 export default function Hero({
+  tagLine,
   title,
   description,
   primaryButtonText,
@@ -31,7 +33,7 @@ export default function Hero({
       <div className="container flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="flex-1 max-w-2xl">
           <p className="text-[1.5rem] font-semibold text-primary mb-3 tracking-wide">
-            Nick Binmore Dancing - IDTA Qualified
+            {tagLine}
           </p>
           <h1 className="text-[2.5rem] md:text-[3rem] font-bold mb-4 leading-tight text-hero-dark">
             {title}

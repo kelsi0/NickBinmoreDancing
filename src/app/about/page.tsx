@@ -11,6 +11,7 @@ export default function AboutPage() {
       <Navbar />
       <main className="bg-background text-foreground font-sans">
         <Hero
+          tagLine="Welcome to"
           title="About Nick Binmore Dancing"
           description="A welcoming studio teaching ballroom, latin and social dance."
           primaryButtonText="See lessons"

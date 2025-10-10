@@ -5,19 +5,30 @@ import Hero from "@/components/Hero";
 import LessonCard from "@/components/LessonCard";
 import Navbar from "@/components/Navbar";
 import SectionTitle from "@/components/SectionTitle";
+import {useContentful} from "@/hooks/useContentful";
 
 export default function HomePage() {
+  const { data, loading, error } = useContentful("page");
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading content.</div>;
+
+  const heroContent = data?.[0]?.fields.hero.fields;
+
+  console.log(heroContent);
+
   return (
     <>
       <Navbar />
       <main className="bg-background text-foreground font-sans">
         <Hero
-          title="Ballroom, Latin & Social Dance Lessons"
-          description="Friendly, structured teaching in a modern studio. Singles and couples welcome—absolute beginners to advanced."
-          primaryButtonText="See lessons"
-          primaryButtonHref="/lessons"
-          secondaryButtonText="Contact us"
-          secondaryButtonHref="/contact"
+          tagLine={heroContent.tagLine}
+          title={heroContent.title}
+          description={heroContent.subtitle}
+          primaryButtonText={heroContent.primaryButtonText}
+          primaryButtonHref={heroContent.primaryButtonHref}
+          secondaryButtonText={heroContent.secondaryButtonText}
+          secondaryButtonHref={heroContent.secondaryButtonHref}
         />
 
         <section className="section-container">
