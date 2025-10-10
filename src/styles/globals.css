@@ -3,12 +3,12 @@
 /* Design tokens */
 :root {
   --color-background: #ffffff;
-  --color-foreground: #000000;
-  --color-primary: #7a1b6d;
-  --color-primary-light: #b56baa;
-  --color-accent: #e6d7e2;
-  --color-muted: #666666;
-  --color-light-bg: #fafafb;
+  --color-foreground: #0f0f0f;
+  --color-primary: #9c2b8a;
+  --color-primary-light: #b84aa4;
+  --color-accent: #f5f5f7;
+  --color-muted: #6b7280;
+  --color-light-bg: #fafafa;
 
   --font-size-h1: 2.5rem;
   --font-size-h2: 2rem;
@@ -26,9 +26,9 @@
   :root {
     --color-background: #0a0a0a;
     --color-foreground: #ededed;
-    --color-accent: #2a2a2a;
-    --color-light-bg: #1a1a1a;
-    --color-muted: #b3b3b3;
+    --color-accent: #1f1f1f;
+    --color-light-bg: #171717;
+    --color-muted: #9ca3af;
   }
 }
 
@@ -106,7 +106,7 @@
 }
 
 .btn-secondary:hover {
-  background-color: rgba(122, 27, 109, 0.1);
+  background-color: rgba(156, 43, 138, 0.1);
 }
 
 /* Cards */
@@ -131,7 +131,7 @@
 
 /* Hero Section */
 .hero {
-  background-color: #e6d7e2;
+  background-color: #f5f5f7;
   padding: 4rem 2rem;
   margin-bottom: 3rem;
   height: 500px;
