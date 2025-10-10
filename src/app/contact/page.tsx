@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import SectionTitle from "@/components/SectionTitle";
+import { useContentful } from "@/hooks/useContentful";
 
 function ContactForm() {
   const searchParams = useSearchParams();
@@ -166,17 +167,26 @@ function ContactForm() {
 }
 
 export default function ContactPage() {
+  const { data, loading, error } = useContentful("page", "pageTitle", "Home");
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading content.</div>;
+
+  // @ts-expect-error
+  const heroContent = data.items[0]?.fields.hero.fields;
+
   return (
     <>
       <Navbar />
       <main className="bg-background text-foreground font-sans">
         <Hero
-          title="Contact"
-          description="Have a question or want to book? Send a message."
-          primaryButtonText="See lessons"
-          primaryButtonHref="/lessons"
-          secondaryButtonText="Contact us"
-          secondaryButtonHref="/contact"
+          tagLine={heroContent.tagLine}
+          title={heroContent.title}
+          description={heroContent.subtitle}
+          primaryButtonText={heroContent.primaryButtonText}
+          primaryButtonHref={heroContent.primaryButtonHref}
+          secondaryButtonText={heroContent.secondaryButtonText}
+          secondaryButtonHref={heroContent.secondaryButtonHref}
         />
 
         <section className="section-container">

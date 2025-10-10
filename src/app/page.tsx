@@ -16,8 +16,6 @@ export default function HomePage() {
   // @ts-expect-error
   const heroContent = data.items[0]?.fields.hero.fields;
 
-  console.log(heroContent);
-
   return (
     <>
       <Navbar />

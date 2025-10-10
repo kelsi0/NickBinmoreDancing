@@ -4,20 +4,29 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import SectionTitle from "@/components/SectionTitle";
+import { useContentful } from "@/hooks/useContentful";
 
 export default function AboutPage() {
+  const { data, loading, error } = useContentful("page", "pageTitle", "Home");
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading content.</div>;
+
+  // @ts-expect-error
+  const heroContent = data.items[0]?.fields.hero.fields;
+
   return (
     <>
       <Navbar />
       <main className="bg-background text-foreground font-sans">
         <Hero
-          tagLine="Welcome to"
-          title="About Nick Binmore Dancing"
-          description="A welcoming studio teaching ballroom, latin and social dance."
-          primaryButtonText="See lessons"
-          primaryButtonHref="/lessons"
-          secondaryButtonText="Contact us"
-          secondaryButtonHref="/contact"
+          tagLine={heroContent.tagLine}
+          title={heroContent.title}
+          description={heroContent.subtitle}
+          primaryButtonText={heroContent.primaryButtonText}
+          primaryButtonHref={heroContent.primaryButtonHref}
+          secondaryButtonText={heroContent.secondaryButtonText}
+          secondaryButtonHref={heroContent.secondaryButtonHref}
         />
 
         {/* Our Story Section */}

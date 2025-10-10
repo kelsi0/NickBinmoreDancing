@@ -5,17 +5,29 @@ import Hero from "@/components/Hero";
 import LessonCard from "@/components/LessonCard";
 import Navbar from "@/components/Navbar";
 import SectionTitle from "@/components/SectionTitle";
+import { useContentful } from "@/hooks/useContentful";
 
 export default function LessonsPage() {
+  const { data, loading, error } = useContentful("page", "pageTitle", "Home");
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error loading content.</div>;
+
+  // @ts-expect-error
+  const heroContent = data.items[0]?.fields.hero.fields;
+
   return (
     <>
       <Navbar />
       <main className="bg-background text-foreground font-sans">
         <Hero
-          title="Lessons & Pricing"
-          description="Clear paths for every level. Choose a course or book private coaching."
-          primaryButtonText="Contact Us"
-          primaryButtonHref="/contact"
+          tagLine={heroContent.tagLine}
+          title={heroContent.title}
+          description={heroContent.subtitle}
+          primaryButtonText={heroContent.primaryButtonText}
+          primaryButtonHref={heroContent.primaryButtonHref}
+          secondaryButtonText={heroContent.secondaryButtonText}
+          secondaryButtonHref={heroContent.secondaryButtonHref}
         />
 
         {/* Course Details Section */}
