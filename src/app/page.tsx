@@ -1,10 +1,10 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import SectionTitle from "@/components/SectionTitle";
-import LessonCard from "@/components/LessonCard";
 import Footer from "@/components/Footer";
+import Hero from "@/components/Hero";
+import LessonCard from "@/components/LessonCard";
+import Navbar from "@/components/Navbar";
+import SectionTitle from "@/components/SectionTitle";
 
 export default function HomePage() {
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FC } from "react";
+import type { FC } from "react";
 
 interface MobileMenuProps {
   links: { href: string; label: string }[];
@@ -22,7 +22,7 @@ const MobileMenu: FC<MobileMenuProps> = ({ links, onClose }) => {
         </Link>
       ))}
       <Link
-        href="/book"
+        href="/contact"
         onClick={onClose}
         className="btn btn-primary w-full mt-4 text-center"
       >

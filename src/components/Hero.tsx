@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 
 interface HeroProps {
@@ -39,39 +40,39 @@ export default function Hero({
             {description}
           </p>
           <div className="flex gap-4 flex-wrap">
-            {primaryButtonText && (
-              primaryButtonHref ? (
+            {primaryButtonText &&
+              (primaryButtonHref ? (
                 <Link href={primaryButtonHref} className="btn btn-primary">
                   {primaryButtonText}
                 </Link>
               ) : (
                 <button
+                  type="button"
                   className="btn btn-primary"
                   onClick={primaryButtonAction}
                 >
                   {primaryButtonText}
                 </button>
-              )
-            )}
-            {secondaryButtonText && (
-              secondaryButtonHref ? (
+              ))}
+            {secondaryButtonText &&
+              (secondaryButtonHref ? (
                 <Link href={secondaryButtonHref} className="btn btn-secondary">
                   {secondaryButtonText}
                 </Link>
               ) : (
                 <button
+                  type="button"
                   className="btn btn-secondary"
                   onClick={secondaryButtonAction}
                 >
                   {secondaryButtonText}
                 </button>
-              )
-            )}
+              ))}
           </div>
         </div>
         {showLogo && (
           <div className="flex-1 flex justify-center md:justify-end">
-            <img
+            <Image
               src="/logo.png"
               alt="Nick Binmore Dancing"
               className="max-w-[280px] md:max-w-[360px] h-auto"

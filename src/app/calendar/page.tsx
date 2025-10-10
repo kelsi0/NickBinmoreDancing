@@ -1,9 +1,9 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import SectionTitle from "@/components/SectionTitle";
 import Footer from "@/components/Footer";
+import Hero from "@/components/Hero";
+import Navbar from "@/components/Navbar";
+import SectionTitle from "@/components/SectionTitle";
 
 export default function CalendarPage() {
   return (
@@ -26,6 +26,7 @@ export default function CalendarPage() {
             {/* Google Calendar Embed - Client can replace this with their own calendar */}
             <div className="w-full rounded-lg overflow-hidden shadow-lg bg-white">
               <iframe
+                title="Google Calendar"
                 src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=Europe%2FLondon&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0"
                 style={{ border: 0 }}
                 width="100%"
@@ -38,8 +39,11 @@ export default function CalendarPage() {
 
             <div className="mt-6 p-4 bg-muted rounded-lg">
               <p className="text-sm text-muted-foreground">
-                <strong>Note for client:</strong> To update this calendar, replace the iframe src URL with your own Google Calendar embed code.
-                You can get this from Google Calendar by going to Settings → Your Calendar → Integrate Calendar → Customize and copy the iframe code.
+                <strong>Note for client:</strong> To update this calendar,
+                replace the iframe src URL with your own Google Calendar embed
+                code. You can get this from Google Calendar by going to Settings
+                → Your Calendar → Integrate Calendar → Customize and copy the
+                iframe code.
               </p>
             </div>
           </div>
@@ -49,4 +53,3 @@ export default function CalendarPage() {
     </>
   );
 }
-

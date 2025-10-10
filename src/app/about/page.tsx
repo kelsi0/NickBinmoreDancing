@@ -1,9 +1,9 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import SectionTitle from "@/components/SectionTitle";
 import Footer from "@/components/Footer";
+import Hero from "@/components/Hero";
+import Navbar from "@/components/Navbar";
+import SectionTitle from "@/components/SectionTitle";
 
 export default function AboutPage() {
   return (
@@ -24,7 +24,10 @@ export default function AboutPage() {
           <SectionTitle title="Our Story" />
           <div className="mt-6 max-w-4xl">
             <p className="text-base md:text-lg leading-relaxed text-foreground">
-              Founded by a qualified instructor with medal test experience, Castle School of Dancing blends traditional technique with modern teaching. We focus on fundamentals—posture, timing, and partnership—so you feel confident on any floor.
+              Founded by a qualified instructor with medal test experience,
+              Castle School of Dancing blends traditional technique with modern
+              teaching. We focus on fundamentals—posture, timing, and
+              partnership—so you feel confident on any floor.
             </p>
           </div>
         </section>
@@ -66,4 +69,3 @@ export default function AboutPage() {
     </>
   );
 }
-

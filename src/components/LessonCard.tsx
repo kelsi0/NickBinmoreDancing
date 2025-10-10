@@ -1,7 +1,7 @@
 "use client";
 
-import { FC } from "react";
 import Link from "next/link";
+import type { FC } from "react";
 
 interface LessonCardProps {
   title: string;
@@ -10,17 +10,22 @@ interface LessonCardProps {
   href?: string;
 }
 
-const LessonCard: FC<LessonCardProps> = ({ title, description, badge, href = "/contact" }) => {
+const LessonCard: FC<LessonCardProps> = ({
+  title,
+  description,
+  badge,
+  href = "/contact",
+}) => {
   // Check if it's an anchor link (hash link)
-  const isAnchorLink = href.includes('#');
+  const isAnchorLink = href.includes("#");
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (isAnchorLink) {
       e.preventDefault();
-      const targetId = href.split('#')[1];
+      const targetId = href.split("#")[1];
       const element = document.getElementById(targetId);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
   };
@@ -43,7 +48,10 @@ const LessonCard: FC<LessonCardProps> = ({ title, description, badge, href = "/c
           Learn more
         </a>
       ) : (
-        <Link href={`${href}?lesson=${encodeURIComponent(title)}`} className="btn btn-primary w-full md:w-fit">
+        <Link
+          href={`${href}?lesson=${encodeURIComponent(title)}`}
+          className="btn btn-primary w-full md:w-fit"
+        >
           Learn more
         </Link>
       )}

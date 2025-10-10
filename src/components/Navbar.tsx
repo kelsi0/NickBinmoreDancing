@@ -1,15 +1,16 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import MobileMenu from "./MobileMenu";
-import { usePathname } from "next/navigation";
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/lessons", label: "Lessons" },
   { href: "/calendar", label: "Calendar" },
-  { href: "/about", label: "About" }
+  { href: "/about", label: "About" },
 ];
 
 export default function Navbar() {
@@ -21,7 +22,7 @@ export default function Navbar() {
       <nav className="container flex items-center justify-between py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <img
+          <Image
             src="/logo.png"
             alt="Nick Binmore Dancing"
             className="h-12 w-auto"
@@ -38,7 +39,9 @@ export default function Navbar() {
               <Link
                 href={link.href}
                 className={`hover:text-primary transition-colors ${
-                  pathname === link.href ? "text-primary font-semibold" : "text-foreground"
+                  pathname === link.href
+                    ? "text-primary font-semibold"
+                    : "text-foreground"
                 }`}
               >
                 {link.label}
@@ -46,10 +49,7 @@ export default function Navbar() {
             </li>
           ))}
           <li>
-            <Link
-              href="/contact"
-              className="btn btn-primary ml-2"
-            >
+            <Link href="/contact" className="btn btn-primary ml-2">
               Book now
             </Link>
           </li>
@@ -57,11 +57,14 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <button
+          type="button"
           className="md:hidden p-2"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
           <svg
+            role="img"
+            aria-label="Menu icon"
             className="w-6 h-6"
             fill="none"
             stroke="currentColor"
@@ -86,7 +89,9 @@ export default function Navbar() {
         </button>
 
         {/* Mobile Menu */}
-        {menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} links={[]} />}
+        {menuOpen && (
+          <MobileMenu onClose={() => setMenuOpen(false)} links={[]} />
+        )}
       </nav>
     </header>
   );

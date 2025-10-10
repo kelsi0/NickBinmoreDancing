@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import SectionTitle from "@/components/SectionTitle";
+import { useEffect, useState } from "react";
 import Footer from "@/components/Footer";
+import Hero from "@/components/Hero";
+import Navbar from "@/components/Navbar";
+import SectionTitle from "@/components/SectionTitle";
 
 export default function ContactPage() {
   const searchParams = useSearchParams();
@@ -35,7 +35,7 @@ export default function ContactPage() {
   }>({ type: null, message: "" });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -58,7 +58,7 @@ export default function ContactPage() {
 
       // Reset form
       setFormData({ name: "", email: "", phone: "", message: "" });
-    } catch (error) {
+    } catch (_error) {
       setSubmitStatus({
         type: "error",
         message: "Something went wrong. Please try again.",
