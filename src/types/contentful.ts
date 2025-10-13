@@ -1,26 +1,10 @@
 import type { Document } from "@contentful/rich-text-types";
 
-export interface LessonCardContent {
-  sys: {
-    id: string;
-    contentType: {
-      sys: {
-        id: string;
-      };
-    };
-  };
-  fields: {
-    title: string;
-    description: string | Document;
-    tag?: string;
-    href?: string;
-  };
-}
-
-export interface Section {
+export interface SectionContent {
   fields: {
     sectionTitle: string;
-    content?: LessonCardContent[];
+    richText?: string | Document;
+    content?: CardContent[];
   };
 }
 
@@ -40,12 +24,12 @@ export interface PageData {
       hero: {
         fields: HeroContent;
       };
-      sections: Section[];
+      sections: SectionContent[];
     };
   }>;
 }
 
-export interface DetailedCardContent {
+export interface CardContent {
   sys: {
     id: string;
     contentType: {
@@ -56,9 +40,13 @@ export interface DetailedCardContent {
   };
   fields: {
     title: string;
+    subtitle: string;
     description: string | Document;
     body?: string | Document;
-    buttonText?: string;
-    buttonHref?: string;
+    buttonText?: string | null;
+    buttonHref?: string | null;
+    richText?: string | Document;
+    tag?: string;
+    link?: string;
   };
 }

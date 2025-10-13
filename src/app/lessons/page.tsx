@@ -10,10 +10,10 @@ import Navbar from "@/components/Navbar";
 import SectionTitle from "@/components/SectionTitle";
 import { useContentful } from "@/hooks/useContentful";
 import type {
-  DetailedCardData,
-  LessonCardContent,
-  Section,
+  CardContent,
+  SectionContent,
 } from "@/types/contentful";
+import {richTextOptions} from "@/lib/contentful-options";
 
 export default function LessonsPage() {
   const { data, loading, error } = useContentful(
@@ -37,7 +37,7 @@ export default function LessonsPage() {
     if (typeof value === "string") {
       return <p>{value}</p>;
     }
-    return documentToReactComponents(value);
+    return documentToReactComponents(value, richTextOptions);
   };
 
   return (
@@ -54,7 +54,7 @@ export default function LessonsPage() {
           secondaryButtonHref={heroContent.secondaryButtonHref ?? null}
         />
 
-        {sectionContent.map((section: Section) => (
+        {sectionContent.map((section: SectionContent) => (
           <section
             key={section.fields.sectionTitle}
             className="section-container bg-light-bg"
@@ -65,16 +65,16 @@ export default function LessonsPage() {
               {section.fields.content && (
                 <div>
                   {section.fields.content.some(
-                    (card: LessonCardContent) =>
+                    (card: CardContent) =>
                       card.sys.contentType.sys.id === "lessonCard",
                   ) && (
                     <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                       {section.fields.content
                         .filter(
-                          (card: LessonCardContent) =>
+                          (card: CardContent) =>
                             card.sys.contentType.sys.id === "lessonCard",
                         )
-                        .map((card: LessonCardContent) => (
+                        .map((card: CardContent) => (
                           <LessonCard
                             key={card.sys.id}
                             title={card.fields.title}
@@ -87,10 +87,10 @@ export default function LessonsPage() {
                   )}
                   {section.fields.content
                     .filter(
-                      (card: DetailedCardData) =>
+                      (card: CardContent) =>
                         card.sys.contentType.sys.id === "detailedCard",
                     )
-                    .map((card: DetailedCardData) => (
+                    .map((card: CardContent) => (
                       <DetailedCard
                         key={card.sys.id}
                         title={card.fields.title}

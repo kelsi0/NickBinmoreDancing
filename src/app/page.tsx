@@ -6,7 +6,7 @@ import LessonCard from "@/components/LessonCard";
 import Navbar from "@/components/Navbar";
 import SectionTitle from "@/components/SectionTitle";
 import { useContentful } from "@/hooks/useContentful";
-import type { LessonCardContent, Section } from "@/types/contentful";
+import type { CardContent, SectionContent } from "@/types/contentful";
 
 export default function HomePage() {
   const { data, loading, error } = useContentful("page", "pageTitle", "Home", {
@@ -35,14 +35,14 @@ export default function HomePage() {
           secondaryButtonHref={heroContent.secondaryButtonHref}
         />
 
-        {sectionContent?.map((section: Section) => (
+        {sectionContent?.map((section: SectionContent) => (
           <section
             key={section.fields.sectionTitle}
             className="section-container"
           >
             <SectionTitle title={section.fields.sectionTitle} />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-8">
-              {section.fields.content?.map((card: LessonCardContent) => (
+              {section.fields.content?.map((card: CardContent) => (
                 <LessonCard
                   key={card.sys.id}
                   title={card.fields.title}

@@ -5,6 +5,7 @@ import type { Document } from "@contentful/rich-text-types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { FC } from "react";
+import {richTextOptions} from "@/lib/contentful-options";
 
 interface LessonCardProps {
   title: string;
@@ -44,7 +45,7 @@ const LessonCard: FC<LessonCardProps> = ({
     if (typeof description === "string") {
       return <p>{description}</p>;
     }
-    return documentToReactComponents(description);
+    return documentToReactComponents(description, richTextOptions);
   };
 
   return (
