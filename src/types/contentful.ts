@@ -1,4 +1,4 @@
-import type { Document } from "@contentful/rich-text-types";
+import type {Document} from "@contentful/rich-text-types";
 
 export interface SectionContent {
   fields: {
@@ -49,4 +49,9 @@ export interface CardContent {
     tag?: string;
     link?: string;
   };
+}
+
+export interface FooterContent {
+  leftText?: string;
+  rightText?: string;
 }

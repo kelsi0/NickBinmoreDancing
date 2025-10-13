@@ -1,4 +1,5 @@
-import { BLOCKS } from "@contentful/rich-text-types";
+import {BLOCKS, type Document} from "@contentful/rich-text-types";
+import {documentToReactComponents} from "@contentful/rich-text-react-renderer";
 
 export const richTextOptions = {
   renderNode: {
@@ -41,4 +42,11 @@ export const richTextOptions = {
       return <li className="text-muted">{unwrappedChildren}</li>;
     },
   },
+};
+
+export const renderText = (value: string | Document) => {
+  if (typeof value === "string") {
+    return <p>{value}</p>;
+  }
+  return documentToReactComponents(value, richTextOptions);
 };

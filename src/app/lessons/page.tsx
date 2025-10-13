@@ -1,7 +1,5 @@
 "use client";
 
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import type { Document } from "@contentful/rich-text-types";
 import DetailedCard from "@/components/DetailedCard";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
@@ -13,7 +11,7 @@ import type {
   CardContent,
   SectionContent,
 } from "@/types/contentful";
-import {richTextOptions} from "@/lib/contentful-options";
+import { renderText } from "@/lib/contentful-options";
 
 export default function LessonsPage() {
   const { data, loading, error } = useContentful(
@@ -32,13 +30,8 @@ export default function LessonsPage() {
   const heroContent = data.items[0]?.fields.hero.fields;
   // @ts-expect-error
   const sectionContent = data.items[0]?.fields?.sections;
-
-  const renderText = (value: string | Document) => {
-    if (typeof value === "string") {
-      return <p>{value}</p>;
-    }
-    return documentToReactComponents(value, richTextOptions);
-  };
+// @ts-expect-error
+  const footerContent = data.items[0]?.fields.footer.fields;
 
   return (
     <>
@@ -105,7 +98,7 @@ export default function LessonsPage() {
             </div>
           </section>
         ))}
-        <Footer />
+        <Footer leftText={footerContent.leftText} rightText={footerContent.rightText} />
       </main>
     </>
   );

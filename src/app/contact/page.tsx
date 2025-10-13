@@ -1,12 +1,12 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import {useSearchParams} from "next/navigation";
+import {Suspense, useEffect, useState} from "react";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import SectionTitle from "@/components/SectionTitle";
-import { useContentful } from "@/hooks/useContentful";
+import {useContentful} from "@/hooks/useContentful";
 
 function ContactForm() {
   const searchParams = useSearchParams();
@@ -33,19 +33,19 @@ function ContactForm() {
   const [submitStatus, setSubmitStatus] = useState<{
     type: "success" | "error" | null;
     message: string;
-  }>({ type: null, message: "" });
+  }>({type: null, message: ""});
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const {name, value} = e.target;
+    setFormData((prev) => ({...prev, [name]: value}));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus({ type: null, message: "" });
+    setSubmitStatus({type: null, message: ""});
 
     // Simulate form submission - replace with actual API call
     try {
@@ -58,7 +58,7 @@ function ContactForm() {
       });
 
       // Reset form
-      setFormData({ name: "", email: "", phone: "", message: "" });
+      setFormData({name: "", email: "", phone: "", message: ""});
     } catch (_error) {
       setSubmitStatus({
         type: "error",
@@ -167,17 +167,19 @@ function ContactForm() {
 }
 
 export default function ContactPage() {
-  const { data, loading, error } = useContentful("page", "pageTitle", "Home");
+  const {data, loading, error} = useContentful("page", "pageTitle", "Contact");
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading content.</div>;
 
   // @ts-expect-error
   const heroContent = data.items[0]?.fields.hero.fields;
+  // @ts-expect-error
+  const footerContent = data.items[0]?.fields.footer.fields;
 
   return (
     <>
-      <Navbar />
+      <Navbar/>
       <main className="bg-background text-foreground font-sans">
         <Hero
           tagLine={heroContent.tagLine}
@@ -190,18 +192,82 @@ export default function ContactPage() {
         />
 
         <section className="section-container">
-          <SectionTitle title="Send a message" />
+          <SectionTitle title="Get in Touch"/>
 
-          <div className="mt-8 max-w-2xl">
-            <Suspense
-              fallback={<div className="text-center py-8">Loading form...</div>}
-            >
-              <ContactForm />
-            </Suspense>
+          <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div>
+              <h3 className="text-2xl font-bold mb-6">Send a Message</h3>
+              <Suspense
+                fallback={<div className="text-center py-8">Loading form...</div>}
+              >
+                <ContactForm/>
+              </Suspense>
+            </div>
+
+            <div>
+              <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-sm font-semibold text-muted uppercase tracking-wide mb-2">
+                    Phone
+                  </h4>
+                  <a
+                    href="tel:07791386903"
+                    className="text-lg hover:text-primary transition-colors"
+                  >
+                    Nick: 07791386903
+                  </a>
+                  <a
+                    href="tel:07512059673"
+                    className="text-lg hover:text-primary transition-colors px-2"
+                  >
+                    Amanda: 07512059673
+                  </a>
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-semibold text-muted uppercase tracking-wide mb-2">
+                    Email
+                  </h4>
+                  <a
+                    href="mailto:nickbinmoredancing@gmail.com"
+                    className="text-lg hover:text-primary transition-colors"
+                  >
+                    nickbinmoredancing@gmail.com
+                  </a>
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-semibold text-muted uppercase tracking-wide mb-2">
+                    Address
+                  </h4>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <address className="text-lg not-italic leading-relaxed">
+                      Castle School of Dancing
+                      <br />
+                      5 Castle Rd
+                      <br/>
+                      Torquay, UK
+                      <br/>
+                      TQ1 3BB
+                    </address>
+                    <address className="text-lg not-italic leading-relaxed">
+                      Livermead House Hotel
+                      <br/>
+                      Torbay Rd
+                      <br/>
+                      Torquay, UK
+                      <br/>
+                      TQ2 6QJ
+                    </address>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </main>
-      <Footer />
+      <Footer leftText={footerContent.leftText} rightText={footerContent.rightText} />
     </>
   );
 }

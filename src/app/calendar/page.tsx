@@ -6,13 +6,15 @@ import Navbar from "@/components/Navbar";
 import { useContentful } from "@/hooks/useContentful";
 
 export default function CalendarPage() {
-  const { data, loading, error } = useContentful("page", "pageTitle", "Home");
+  const { data, loading, error } = useContentful("page", "pageTitle", "Calendar");
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading content.</div>;
 
   // @ts-expect-error
   const heroContent = data.items[0]?.fields.hero.fields;
+  // @ts-expect-error
+  const footerContent = data.items[0]?.fields.footer.fields;
 
   return (
     <>
@@ -30,7 +32,6 @@ export default function CalendarPage() {
 
         <section className="section-container">
           <div className="mt-8">
-            {/* Google Calendar Embed - Client can replace this with their own calendar */}
             <div className="w-full rounded-lg overflow-hidden shadow-lg bg-white">
               <iframe
                 title="Google Calendar"
@@ -46,7 +47,7 @@ export default function CalendarPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      <Footer leftText={footerContent.leftText} rightText={footerContent.rightText} />
     </>
   );
 }

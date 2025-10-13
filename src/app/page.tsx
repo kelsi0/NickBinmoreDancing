@@ -20,6 +20,8 @@ export default function HomePage() {
   const heroContent = data.items[0]?.fields.hero.fields;
   // @ts-expect-error
   const sectionContent = data.items[0]?.fields.sections;
+  // @ts-expect-error
+  const footerContent = data.items[0]?.fields.footer.fields;
 
   return (
     <>
@@ -54,7 +56,7 @@ export default function HomePage() {
           </section>
         ))}
 
-        <Footer />
+        <Footer leftText={footerContent.leftText} rightText={footerContent.rightText} />
       </main>
     </>
   );
