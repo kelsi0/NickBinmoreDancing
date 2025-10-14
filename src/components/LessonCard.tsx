@@ -49,21 +49,25 @@ const LessonCard: FC<LessonCardProps> = ({
   };
 
   return (
-    <div className="card flex flex-col h-full">
-      <div className="min-h-[2rem] mb-4">
-        {badge && <span className="badge">{badge}</span>}
+    <div className="bg-white rounded-lg shadow-sm p-4 md:p-6 mx-4 md:mx-0 my-4">
+      <div className="flex items-center justify-between mb-2">
+        <h3 className="text-lg md:text-xl font-bold text-primary">{title}</h3>
+        {badge && (
+          <span className="inline-block bg-primary/10 text-primary border border-primary font-semibold text-xs px-3 py-1 rounded-full ml-2 align-middle shadow-sm">
+            {badge}
+          </span>
+        )}
       </div>
-      <h3 className="text-[1.375rem] font-bold mb-3">{title}</h3>
-      <div className="text-[0.9375rem] text-muted mb-6 flex-grow leading-relaxed">
+      <div className="mb-4 text-sm md:text-base text-muted">
         {renderDescription()}
       </div>
-      <Link
-        href={href || `/contact?lesson=${encodeURIComponent(title)}`}
-        onClick={handleClick}
-        className="btn btn-primary w-full md:w-fit"
-      >
-        Learn more
-      </Link>
+      {href && (
+        <div className="w-full flex justify-center">
+          <Link href={href} onClick={handleClick} className="btn btn-primary w-full md:w-auto mt-2 block text-center">
+            More Info
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

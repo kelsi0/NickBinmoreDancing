@@ -3,6 +3,7 @@
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
+import CalendarEmbed from "@/components/CalendarEmbed";
 import { useContentful } from "@/hooks/useContentful";
 
 export default function CalendarPage() {
@@ -32,18 +33,7 @@ export default function CalendarPage() {
 
         <section className="section-container">
           <div className="mt-8">
-            <div className="w-full rounded-lg overflow-hidden shadow-lg bg-white">
-              <iframe
-                title="Google Calendar"
-                src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Europe%2FLondon&showPrint=0&src=bmlja2Jpbm1vcmVkYW5jaW5nQGdtYWlsLmNvbQ&src=ZW4tZ2IudWsjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23039be5&color=%230b8043"
-                style={{ border: 0 }}
-                width="100%"
-                height="600"
-                frameBorder="0"
-                scrolling="no"
-                className="w-full"
-              ></iframe>
-            </div>
+            <CalendarEmbed />
           </div>
         </section>
       </main>

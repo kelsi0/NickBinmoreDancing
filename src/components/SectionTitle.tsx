@@ -7,7 +7,7 @@ interface SectionTitleProps {
 }
 
 const SectionTitle: FC<SectionTitleProps> = ({ title }) => (
-  <h2 className="section-title">{title}</h2>
+  <h2 className="section-title w-full text-center mx-auto">{title}</h2>
 );
 
 export default SectionTitle;

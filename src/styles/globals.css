@@ -185,10 +185,24 @@ p {
 }
 
 .section-title {
-  font-size: var(--font-size-h3);
+  font-size: var(--font-size-h2);
   font-weight: 700;
-  color: var(--color-background);
-  margin-bottom: 1rem;
+  color: #222; /* Use a strong dark color for maximum legibility */
+  margin-top: 1.25rem; /* Reduced from 2rem to 1.25rem for mobile */
+  margin-bottom: 1.25rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+  }
 }
 
 .section-container {
@@ -203,5 +217,21 @@ p {
   .section-container {
     padding-top: 2rem;
     padding-bottom: 2rem;
+  }
+}
+
+.rich-text-content {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .rich-text-content {
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 }

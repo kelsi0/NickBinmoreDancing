@@ -29,14 +29,14 @@ const DetailedCard: FC<DetailedCardProps> = ({
   };
 
   return (
-    <div className="scroll-mt-24 mt-12 max-w-4xl bg-white p-8 rounded-lg shadow-sm">
-      <h3 className="text-2xl md:text-3xl font-bold mb-4">{title}</h3>
-      <p className="text-lg text-primary font-semibold mb-4">{subtitle}</p>
+    <div className="scroll-mt-24 mt-12 max-w-4xl md:max-w-full bg-white p-4 md:p-8 rounded-lg shadow-sm mx-4">
+      <h3 className="text-xl md:text-3xl font-bold mb-4">{title}</h3>
+      <p className="text-base md:text-lg text-primary font-semibold mb-4">{subtitle}</p>
       <div className="space-y-4 text-[0.9375rem] leading-relaxed">
         <div>{renderBody(body)}</div>
         {buttonHref && (
           <div className="pt-4">
-            <a href={buttonHref} className="btn btn-primary">
+            <a className="btn btn-primary">
               {buttonText}
             </a>
           </div>

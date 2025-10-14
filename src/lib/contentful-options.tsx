@@ -3,6 +3,9 @@ import {documentToReactComponents} from "@contentful/rich-text-react-renderer";
 
 export const richTextOptions = {
   renderNode: {
+    [BLOCKS.DOCUMENT]: (_node: any, children: any) => (
+      <div className="rich-text-content">{children}</div>
+    ),
     [BLOCKS.PARAGRAPH]: (_node: any, children: any) => (
       <p className="mb-4">{children}</p>
     ),

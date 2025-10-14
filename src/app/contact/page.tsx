@@ -193,8 +193,7 @@ export default function ContactPage() {
 
         <section className="section-container">
           <SectionTitle title="Get in Touch"/>
-
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-12  px-4 sm:px-6">
             <div>
               <h3 className="text-2xl font-bold mb-6">Send a Message</h3>
               <Suspense
@@ -217,9 +216,10 @@ export default function ContactPage() {
                   >
                     Nick: 07791386903
                   </a>
+                  <br />
                   <a
                     href="tel:07512059673"
-                    className="text-lg hover:text-primary transition-colors px-2"
+                    className="text-lg hover:text-primary transition-colors "
                   >
                     Amanda: 07512059673
                   </a>
@@ -244,7 +244,7 @@ export default function ContactPage() {
                   <div className="grid md:grid-cols-2 gap-4">
                     <address className="text-lg not-italic leading-relaxed">
                       Castle School of Dancing
-                      <br />
+                      <br/>
                       5 Castle Rd
                       <br/>
                       Torquay, UK
@@ -267,7 +267,7 @@ export default function ContactPage() {
           </div>
         </section>
       </main>
-      <Footer leftText={footerContent.leftText} rightText={footerContent.rightText} />
+      <Footer leftText={footerContent.leftText} rightText={footerContent.rightText}/>
     </>
   );
 }

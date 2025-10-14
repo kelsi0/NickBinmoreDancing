@@ -19,17 +19,17 @@ export default function Navbar() {
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-      <nav className="container flex items-center justify-between py-4">
+      <nav className="container flex items-center justify-between py-4 px-4 md:px-0">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 md:gap-3">
           <Image
-            width="48"
-            height="48"
+            width={32}
+            height={32}
             src="/logo.png"
             alt="Nick Binmore Dancing"
-            className="h-10 w-10 md:h-12 md:w-12 object-contain flex-shrink-0"
+            className="h-8 w-8 md:h-12 md:w-12 object-contain flex-shrink-0"
           />
-          <span className="text-sm md:text-[1.125rem] text-foreground leading-tight">
+          <span className="text-xs md:text-[1.125rem] text-foreground leading-tight">
             Nick Binmore Dancing
           </span>
         </Link>
