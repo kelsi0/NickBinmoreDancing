@@ -7,6 +7,7 @@ import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import SectionTitle from "@/components/SectionTitle";
 import {useContentful} from "@/hooks/useContentful";
+import {renderText} from "@/lib/contentful-options";
 
 function ContactForm() {
   const searchParams = useSearchParams();
@@ -19,7 +20,6 @@ function ContactForm() {
     message: "",
   });
 
-  // Pre-fill message if lesson query parameter exists
   useEffect(() => {
     if (lessonQuery) {
       setFormData((prev) => ({
@@ -45,20 +45,27 @@ function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus({type: null, message: ""});
+    setSubmitStatus({ type: null, message: "" });
 
-    // Simulate form submission - replace with actual API call
     try {
-      // In a real application, you would send this to an API endpoint
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
 
       setSubmitStatus({
         type: "success",
         message: "Thank you for your message! We'll get back to you soon.",
       });
 
-      // Reset form
-      setFormData({name: "", email: "", phone: "", message: ""});
+      setFormData({ name: "", email: "", phone: "", message: "" });
     } catch (_error) {
       setSubmitStatus({
         type: "error",
@@ -176,6 +183,8 @@ export default function ContactPage() {
   const heroContent = data.items[0]?.fields.hero.fields;
   // @ts-expect-error
   const footerContent = data.items[0]?.fields.footer.fields;
+  // @ts-expect-error
+  const contactDetailsSection = data.items[0]?.fields.sections?.find((section: any) => section.sys.contentType.sys.id === "contactDetails");
 
   return (
     <>
@@ -214,14 +223,14 @@ export default function ContactPage() {
                     href="tel:07791386903"
                     className="text-lg hover:text-primary transition-colors"
                   >
-                    Nick: 07791386903
+                    {contactDetailsSection?.fields?.phoneLineOne}
                   </a>
                   <br />
                   <a
                     href="tel:07512059673"
                     className="text-lg hover:text-primary transition-colors "
                   >
-                    Amanda: 07512059673
+                    {contactDetailsSection?.fields?.phoneLineTwo}
                   </a>
                 </div>
 
@@ -233,7 +242,7 @@ export default function ContactPage() {
                     href="mailto:nickbinmoredancing@gmail.com"
                     className="text-lg hover:text-primary transition-colors"
                   >
-                    nickbinmoredancing@gmail.com
+                    {contactDetailsSection?.fields?.emailAddress}
                   </a>
                 </div>
 
@@ -243,22 +252,10 @@ export default function ContactPage() {
                   </h4>
                   <div className="grid md:grid-cols-2 gap-4">
                     <address className="text-lg not-italic leading-relaxed">
-                      Castle School of Dancing
-                      <br/>
-                      5 Castle Rd
-                      <br/>
-                      Torquay, UK
-                      <br/>
-                      TQ1 3BB
+                      {renderText(contactDetailsSection?.fields?.addressOne)}
                     </address>
                     <address className="text-lg not-italic leading-relaxed">
-                      Livermead House Hotel
-                      <br/>
-                      Torbay Rd
-                      <br/>
-                      Torquay, UK
-                      <br/>
-                      TQ2 6QJ
+                      {renderText(contactDetailsSection?.fields?.addressTwo)}
                     </address>
                   </div>
                 </div>

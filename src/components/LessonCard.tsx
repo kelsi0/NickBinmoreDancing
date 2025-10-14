@@ -62,7 +62,7 @@ const LessonCard: FC<LessonCardProps> = ({
         {renderDescription()}
       </div>
       {href && (
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center md:justify-start">
           <Link href={href} onClick={handleClick} className="btn btn-primary w-full md:w-auto mt-2 block text-center">
             More Info
           </Link>
