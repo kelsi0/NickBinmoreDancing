@@ -91,6 +91,7 @@ export default function LessonsPage() {
                         body={card.fields.body}
                         buttonText={card.fields.buttonText ?? null}
                         buttonHref={card.fields.buttonHref ?? null}
+                        id={card.fields.id ?? undefined}
                       />
                     ))}
                 </div>

@@ -39,6 +39,7 @@ export interface CardContent {
     };
   };
   fields: {
+    id?: string;
     title: string;
     subtitle: string;
     description: string | Document;

@@ -2,7 +2,7 @@
 
 /* Design tokens */
 :root {
-  --color-background: #ffffff;
+  --color-background: #000000;
   --color-foreground: #0f0f0f;
   --color-primary: #9c2b8a;
   --color-primary-light: #b84aa4;
