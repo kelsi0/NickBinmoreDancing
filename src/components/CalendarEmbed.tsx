@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const CALENDAR_BASE_URL = "https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID&ctz=Europe/London";
+const CALENDAR_BASE_URL = "https://calendar.google.com/calendar/embed?src=nickbinmoredancing%40gmail.com&ctz=Europe/London";
 
 function getCalendarSrc(isMobile: boolean) {
   return isMobile

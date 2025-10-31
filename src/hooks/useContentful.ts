@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
+
+const cacheTTL = parseInt(process.env.CONTENTFUL_CACHE_TTL || '3600', 10) * 1000;
+const cache = new Map<string, { data: any; timestamp: number }>();
 
 export function useContentful(
   contentType: string,
@@ -31,6 +34,7 @@ export function useContentful(
         }
 
         const result = await response.json();
+        cache.set(cacheKey, { data: result, timestamp: Date.now() });
         setData(result);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
@@ -39,8 +43,17 @@ export function useContentful(
       }
     }
 
-    fetchContent();
+    const cacheKey = `${contentType}-${fieldName}-${fieldValue}-${JSON.stringify(options)}`;
+    const cached = cache.get(cacheKey);
+
+    if (cached && Date.now() - cached.timestamp < cacheTTL) {
+      setData(cached.data);
+      setLoading(false);
+      return;
+    } else {
+      fetchContent()
+    }
   }, [contentType, fieldName, fieldValue, options?.include]);
 
-  return { data, loading, error };
+  return {data, loading, error};
 }

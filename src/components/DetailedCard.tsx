@@ -30,8 +30,6 @@ const DetailedCard: FC<DetailedCardProps> = ({
     return documentToReactComponents(value, richTextOptions);
   };
 
-  console.log(id,title, buttonHref);
-
   return (
     <div id={id ?? "id"} className="scroll-mt-24 mt-12 max-w-4xl md:max-w-full bg-white p-4 md:p-8 rounded-lg shadow-sm mx-4">
       <h3 className="text-xl md:text-3xl font-bold mb-4">{title}</h3>

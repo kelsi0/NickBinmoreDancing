@@ -12,6 +12,7 @@ import type {
   SectionContent,
 } from "@/types/contentful";
 import { renderText } from "@/lib/contentful-options";
+import { useEffect } from "react";
 
 export default function LessonsPage() {
   const { data, loading, error } = useContentful(
@@ -23,6 +24,17 @@ export default function LessonsPage() {
     },
   );
 
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        element?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, [loading, data]);
+
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading content.</div>;
 
@@ -30,7 +42,7 @@ export default function LessonsPage() {
   const heroContent = data.items[0]?.fields.hero.fields;
   // @ts-expect-error
   const sectionContent = data.items[0]?.fields?.sections;
-// @ts-expect-error
+  // @ts-expect-error
   const footerContent = data.items[0]?.fields.footer.fields;
 
   return (

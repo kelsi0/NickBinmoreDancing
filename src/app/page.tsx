@@ -50,7 +50,7 @@ export default function HomePage() {
                   title={card.fields.title}
                   description={card.fields.description}
                   badge={card.fields.tag}
-                  href={card.fields.link}
+                  href={`/lessons/${card.fields.link}`}
                 />
               ))}
             </div>
