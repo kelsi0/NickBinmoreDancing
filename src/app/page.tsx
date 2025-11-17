@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import SectionTitle from "@/components/SectionTitle";
 import { useContentful } from "@/hooks/useContentful";
 import type { CardContent, SectionContent } from "@/types/contentful";
+import { renderText } from "@/lib/contentful-options";
 
 export default function HomePage() {
   const { data, loading, error } = useContentful("page", "pageTitle", "Home", {
@@ -43,8 +44,9 @@ export default function HomePage() {
             className="section-container"
           >
             <SectionTitle title={section.fields.sectionTitle} />
+              {section.fields.richText && renderText(section.fields.richText)}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-8">
-              {section.fields.content?.map((card: CardContent) => (
+            {section.fields.content?.map((card: CardContent) => (
                 <LessonCard
                   key={card.sys.id}
                   title={card.fields.title}
