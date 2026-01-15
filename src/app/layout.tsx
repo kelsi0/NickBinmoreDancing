@@ -5,7 +5,7 @@ import "@/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Nick Binmore Dancing",
-  description: "Ballroom dance lessons with Nick Binmore",
+  description: 'The official website of Nick Binmore, IDTA qualified ballroom and latin dance instructor based in the Torbay area.',
 };
 
 export default function RootLayout({
