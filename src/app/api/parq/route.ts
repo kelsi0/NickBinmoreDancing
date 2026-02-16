@@ -116,13 +116,18 @@ const generatePDF = (formData: any): Buffer => {
   doc.setTextColor('black');
 
   addText("Client's Signature:", 20);
-  if (formData.clientSignature && !formData.clientSignature.startsWith('data:image')) {
+  if (formData.clientSignature && formData.clientSignature.startsWith('data:image')) {
+    // Embed the signature image
+    try {
+      doc.addImage(formData.clientSignature, 'PNG', 20, yPos, 80, 20);
+      yPos += 25;
+    } catch (e) {
+      addText('[Signature image could not be embedded]', 20);
+    }
+  } else if (formData.clientSignature) {
+    // Text signature
     doc.setFont('helvetica', 'italic');
     addText(formData.clientSignature, 20);
-    doc.setFont('helvetica', 'normal');
-  } else if (formData.clientSignature) {
-    doc.setFont('helvetica', 'italic');
-    addText('[Digital signature provided]', 20);
     doc.setFont('helvetica', 'normal');
   } else {
     addText('Not provided', 20);
@@ -131,13 +136,18 @@ const generatePDF = (formData: any): Buffer => {
   yPos += 5;
 
   addText("Witness's Signature:", 20);
-  if (formData.witnessSignature && !formData.witnessSignature.startsWith('data:image')) {
+  if (formData.witnessSignature && formData.witnessSignature.startsWith('data:image')) {
+    // Embed the signature image
+    try {
+      doc.addImage(formData.witnessSignature, 'PNG', 20, yPos, 80, 20);
+      yPos += 25;
+    } catch (e) {
+      addText('[Signature image could not be embedded]', 20);
+    }
+  } else if (formData.witnessSignature) {
+    // Text signature
     doc.setFont('helvetica', 'italic');
     addText(formData.witnessSignature, 20);
-    doc.setFont('helvetica', 'normal');
-  } else if (formData.witnessSignature) {
-    doc.setFont('helvetica', 'italic');
-    addText('[Digital signature provided]', 20);
     doc.setFont('helvetica', 'normal');
   } else {
     addText('Not provided', 20);

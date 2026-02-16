@@ -21,6 +21,12 @@ export default function Footer(footerContent?: FooterContent) {
           >
             Insurance
           </Link>
+          <Link
+            href="/parq"
+            className="text-gray-600 hover:text-primary transition-colors"
+          >
+            PAR-Q Form
+          </Link>
         </div>
         <p>{footerContent && footerContent.rightText}</p>
       </div>
