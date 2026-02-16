@@ -189,13 +189,17 @@ export async function POST(request: Request) {
     const htmlContent = formatFormDataAsHTML(formData);
 
     // Convert HTML to PDF using Puppeteer with chrome-aws-lambda for serverless
+    const isProduction = process.env.NODE_ENV === 'production';
+
     browser = await puppeteer.launch({
-      args: chromium.args,
+      args: isProduction ? chromium.args : ['--no-sandbox', '--disable-setuid-sandbox'],
       defaultViewport: {
         width: 1280,
         height: 720,
       },
-      executablePath: await chromium.executablePath(),
+      executablePath: isProduction
+        ? await chromium.executablePath()
+        : process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome',
       headless: true,
     });
 
