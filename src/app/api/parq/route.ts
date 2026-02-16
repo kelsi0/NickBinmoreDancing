@@ -1,6 +1,7 @@
 import { google } from 'googleapis';
 import { NextResponse } from 'next/server';
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 import { Readable } from 'stream';
 import { Resend } from 'resend';
 
@@ -187,10 +188,15 @@ export async function POST(request: Request) {
     // Generate HTML content
     const htmlContent = formatFormDataAsHTML(formData);
 
-    // Convert HTML to PDF using Puppeteer
+    // Convert HTML to PDF using Puppeteer with chrome-aws-lambda for serverless
     browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: {
+        width: 1280,
+        height: 720,
+      },
+      executablePath: await chromium.executablePath(),
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
     const page = await browser.newPage();
