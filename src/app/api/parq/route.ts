@@ -1,9 +1,8 @@
 import { google } from 'googleapis';
 import { NextResponse } from 'next/server';
-import puppeteer from 'puppeteer-core';
-import chromium from '@sparticuz/chromium';
 import { Readable } from 'stream';
 import { Resend } from 'resend';
+import { jsPDF } from 'jspdf';
 
 // Initialize Google Drive API with OAuth 2.0
 const getGoogleDriveClient = () => {
@@ -20,8 +19,13 @@ const getGoogleDriveClient = () => {
   return google.drive({ version: 'v3', auth: oauth2Client });
 };
 
-// Format form data as HTML for PDF
-const formatFormDataAsHTML = (formData: any) => {
+// Generate PDF using jsPDF
+const generatePDF = (formData: any): Buffer => {
+  const doc = new jsPDF();
+  const primaryColor = '#9c2b8a';
+  const pageWidth = doc.internal.pageSize.getWidth();
+  let yPos = 20;
+
   const formatDate = (dateString: string) => {
     if (!dateString) return 'Not provided';
     return new Date(dateString).toLocaleDateString('en-GB', {
@@ -31,140 +35,190 @@ const formatFormDataAsHTML = (formData: any) => {
     });
   };
 
-  const formatSignature = (signature: string) => {
-    if (!signature) return 'Not provided';
-    if (signature.startsWith('data:image')) {
-      return `<img src="${signature}" alt="Signature" style="max-height: 80px; border: 1px solid #ccc; padding: 5px;" />`;
-    }
-    return `<p style="font-style: italic; border: 1px solid #ccc; padding: 10px; background: #f9f9f9;">${signature}</p>`;
+  // Helper to add text with line wrapping
+  const addText = (text: string, x: number, size: number = 10, color: string = 'black', maxWidth?: number) => {
+    doc.setFontSize(size);
+    doc.setTextColor(color);
+    const lines = doc.splitTextToSize(text, maxWidth || pageWidth - 40);
+    doc.text(lines, x, yPos);
+    yPos += lines.length * size * 0.35 + 2;
   };
 
-  return `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>PAR-Q Form - ${formData.name}</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; color: #333; }
-    h1 { color: #9c2b8a; border-bottom: 3px solid #9c2b8a; padding-bottom: 10px; }
-    h2 { color: #9c2b8a; margin-top: 30px; border-bottom: 2px solid #e0e0e0; padding-bottom: 5px; }
-    .section { margin-bottom: 30px; page-break-inside: avoid; }
-    .field { margin-bottom: 15px; }
-    .label { font-weight: bold; color: #555; }
-    .value { margin-left: 10px; }
-    .question { background: #f5f5f5; padding: 10px; margin: 10px 0; border-left: 4px solid #9c2b8a; page-break-inside: avoid; }
-    .answer { font-weight: bold; color: #9c2b8a; }
-    .signature-block { border: 1px solid #ddd; padding: 15px; margin: 10px 0; background: #fafafa; page-break-inside: avoid; }
-    .footer { margin-top: 40px; padding-top: 20px; border-top: 2px solid #9c2b8a; font-size: 0.9em; color: #666; }
-    @media print {
-      body { margin: 20px; }
+  // Title
+  doc.setFontSize(24);
+  doc.setTextColor(primaryColor);
+  doc.text('Physical Activity Readiness', pageWidth / 2, yPos, { align: 'center' });
+  yPos += 10;
+  doc.text('Questionnaire (PAR-Q)', pageWidth / 2, yPos, { align: 'center' });
+  yPos += 15;
+
+  doc.setFontSize(10);
+  doc.setTextColor('black');
+  doc.text(`Submitted: ${new Date().toLocaleString('en-GB')}`, 20, yPos);
+  yPos += 15;
+
+  // Personal Information
+  doc.setFontSize(16);
+  doc.setTextColor(primaryColor);
+  doc.text('Personal Information', 20, yPos);
+  yPos += 8;
+
+  doc.setFontSize(10);
+  doc.setTextColor('black');
+  addText(`Name: ${formData.name || 'N/A'}`, 20);
+  addText(`Gender: ${formData.gender || 'N/A'}`, 20);
+  addText(`Email: ${formData.email || 'N/A'}`, 20);
+  addText(`Age: ${formData.age || 'N/A'}`, 20);
+  addText(`Contact Number: ${formData.contactNumber || 'N/A'}`, 20);
+  addText(`Next of Kin's Name: ${formData.nextOfKinName || 'N/A'}`, 20);
+  addText(`Emergency Contact Number: ${formData.emergencyContactNumber || 'N/A'}`, 20);
+  yPos += 10;
+
+  // Health Screening Questions
+  doc.setFontSize(16);
+  doc.setTextColor(primaryColor);
+  doc.text('Health Screening Questions', 20, yPos);
+  yPos += 8;
+
+  const questions = [
+    'Has your doctor ever said that you have a heart condition and that you should only do physical activity recommended by a doctor?',
+    'Do you feel pain in your chest when you do physical activity?',
+    'In the past month, have you had chest pain when you were not doing physical activity?',
+    'Do you lose your balance because of dizziness or do you ever lose consciousness?',
+    'Do you have a bone or joint problem (for example, back, knee or hip) that could be made worse by a change in physical activity?',
+    'Is your doctor currently prescribing drugs (for example, water pills) for your blood pressure or heart condition?',
+    'Do you know of any other reason why you should not do physical activity?',
+  ];
+
+  questions.forEach((question, index) => {
+    if (yPos > 250) {
+      doc.addPage();
+      yPos = 20;
     }
-  </style>
-</head>
-<body>
-  <h1>Physical Activity Readiness Questionnaire (PAR-Q)</h1>
-  <p><strong>Submitted:</strong> ${new Date().toLocaleString('en-GB')}</p>
+    const answer = formData[`question${index + 1}`]?.toUpperCase() || 'NOT ANSWERED';
+    addText(`${index + 1}. ${question}`, 20, 10, 'black', pageWidth - 40);
+    doc.setTextColor(primaryColor);
+    doc.text(`   Answer: ${answer}`, 20, yPos);
+    yPos += 8;
+    doc.setTextColor('black');
+  });
 
-  <div class="section">
-    <h2>Personal Information</h2>
-    <div class="field"><span class="label">Name:</span><span class="value">${formData.name || 'N/A'}</span></div>
-    <div class="field"><span class="label">Gender:</span><span class="value">${formData.gender || 'N/A'}</span></div>
-    <div class="field"><span class="label">Email:</span><span class="value">${formData.email || 'N/A'}</span></div>
-    <div class="field"><span class="label">Age:</span><span class="value">${formData.age || 'N/A'}</span></div>
-    <div class="field"><span class="label">Contact Number:</span><span class="value">${formData.contactNumber || 'N/A'}</span></div>
-    <div class="field"><span class="label">Next of Kin's Name:</span><span class="value">${formData.nextOfKinName || 'N/A'}</span></div>
-    <div class="field"><span class="label">Emergency Contact Number:</span><span class="value">${formData.emergencyContactNumber || 'N/A'}</span></div>
-  </div>
+  // Participant Declaration - New Page
+  doc.addPage();
+  yPos = 20;
 
-  <div class="section">
-    <h2>Health Screening Questions</h2>
-    <div class="question">
-      <p><strong>1. Has your doctor ever said that you have a heart condition and that you should only do physical activity recommended by a doctor?</strong></p>
-      <p class="answer">Answer: ${formData.question1?.toUpperCase() || 'NOT ANSWERED'}</p>
-    </div>
-    <div class="question">
-      <p><strong>2. Do you feel pain in your chest when you do physical activity?</strong></p>
-      <p class="answer">Answer: ${formData.question2?.toUpperCase() || 'NOT ANSWERED'}</p>
-    </div>
-    <div class="question">
-      <p><strong>3. In the past month, have you had chest pain when you were not doing physical activity?</strong></p>
-      <p class="answer">Answer: ${formData.question3?.toUpperCase() || 'NOT ANSWERED'}</p>
-    </div>
-    <div class="question">
-      <p><strong>4. Do you lose your balance because of dizziness or do you ever lose consciousness?</strong></p>
-      <p class="answer">Answer: ${formData.question4?.toUpperCase() || 'NOT ANSWERED'}</p>
-    </div>
-    <div class="question">
-      <p><strong>5. Do you have a bone or joint problem (for example, back, knee or hip) that could be made worse by a change in physical activity?</strong></p>
-      <p class="answer">Answer: ${formData.question5?.toUpperCase() || 'NOT ANSWERED'}</p>
-    </div>
-    <div class="question">
-      <p><strong>6. Is your doctor currently prescribing drugs (for example, water pills) for your blood pressure or heart condition?</strong></p>
-      <p class="answer">Answer: ${formData.question6?.toUpperCase() || 'NOT ANSWERED'}</p>
-    </div>
-    <div class="question">
-      <p><strong>7. Do you know of any other reason why you should not do physical activity?</strong></p>
-      <p class="answer">Answer: ${formData.question7?.toUpperCase() || 'NOT ANSWERED'}</p>
-    </div>
-  </div>
+  doc.setFontSize(16);
+  doc.setTextColor(primaryColor);
+  doc.text('Participant Declaration', 20, yPos);
+  yPos += 10;
 
-  <div class="section">
-    <h2>Participant Declaration</h2>
-    
-    <div class="signature-block">
-      <h3>Client's Signature</h3>
-      ${formatSignature(formData.clientSignature)}
-      <p><strong>Date:</strong> ${formatDate(formData.clientSignatureDate)}</p>
-    </div>
+  doc.setFontSize(10);
+  doc.setTextColor('black');
 
-    <div class="signature-block">
-      <h3>Witness's Signature</h3>
-      ${formatSignature(formData.witnessSignature)}
-      <p><strong>Date:</strong> ${formatDate(formData.witnessSignatureDate)}</p>
-    </div>
+  addText("Client's Signature:", 20);
+  if (formData.clientSignature && !formData.clientSignature.startsWith('data:image')) {
+    doc.setFont('helvetica', 'italic');
+    addText(formData.clientSignature, 20);
+    doc.setFont('helvetica', 'normal');
+  } else if (formData.clientSignature) {
+    doc.setFont('helvetica', 'italic');
+    addText('[Digital signature provided]', 20);
+    doc.setFont('helvetica', 'normal');
+  } else {
+    addText('Not provided', 20);
+  }
+  addText(`Date: ${formatDate(formData.clientSignatureDate)}`, 20);
+  yPos += 5;
 
-    <div style="background: #f9f9f9; padding: 15px; margin: 20px 0; border: 1px solid #ddd; border-radius: 5px;">
-      <p style="font-size: 11px; font-style: italic; margin: 0 0 10px 0;">
-        Please note that no liability is accepted for any loss of or damage to any articles, which you may bring with you to classes. Equally, liability is not accepted for loss of or damage to motor vehicles or their contents and these are left at the owner's risk.
-      </p>
-    </div>
+  addText("Witness's Signature:", 20);
+  if (formData.witnessSignature && !formData.witnessSignature.startsWith('data:image')) {
+    doc.setFont('helvetica', 'italic');
+    addText(formData.witnessSignature, 20);
+    doc.setFont('helvetica', 'normal');
+  } else if (formData.witnessSignature) {
+    doc.setFont('helvetica', 'italic');
+    addText('[Digital signature provided]', 20);
+    doc.setFont('helvetica', 'normal');
+  } else {
+    addText('Not provided', 20);
+  }
+  addText(`Date: ${formatDate(formData.witnessSignatureDate)}`, 20);
+  yPos += 10;
 
-    <div style="background: #f9f9f9; padding: 15px; margin: 20px 0; border: 1px solid #ddd; border-radius: 5px;">
-      <p style="font-size: 13px; margin: 0;">
-        "I confirm that where any medical condition, discomfort or injury which may be affected by physical activity applies or becomes applicable at any time when I am participating in a class, I am responsible for checking with my doctor to ensure I am able to participate in this activity."
-      </p>
-    </div>
+  // Liability Notice
+  doc.setFontSize(9);
+  doc.setTextColor('gray');
+  addText(
+    'Please note that no liability is accepted for any loss of or damage to any articles, which you may bring with you to classes. Equally, liability is not accepted for loss of or damage to motor vehicles or their contents and these are left at the owner\'s risk.',
+    20,
+    9,
+    'gray',
+    pageWidth - 40
+  );
+  yPos += 5;
 
-    <div style="background: #e3f2fd; padding: 20px; margin: 20px 0; border: 2px solid #2196F3; border-radius: 5px;">
-      <h3 style="color: #1565C0; margin: 0 0 10px 0; font-size: 16px;">Data Protection & Privacy (GDPR Consent)</h3>
-      <p style="font-size: 13px; color: #1565C0; margin: 0 0 10px 0;">
-        By submitting this form, the participant consents to Nick Binmore Dancing storing and processing their personal information in accordance with UK GDPR regulations. The data will be kept securely and used solely for the purpose of managing participation in dance classes and ensuring health and safety. The participant has the right to access, rectify, or request deletion of their personal data at any time.
-      </p>
-      <p style="font-size: 13px; color: #1565C0; margin: 0;">
-        For more information about how we handle data, please refer to our Privacy Policy at <strong>nickbinmoredancing.co.uk/privacy</strong> or contact us directly.
-      </p>
-    </div>
+  // Medical Confirmation
+  addText(
+    '"I confirm that where any medical condition, discomfort or injury which may be affected by physical activity applies or becomes applicable at any time when I am participating in a class, I am responsible for checking with my doctor to ensure I am able to participate in this activity."',
+    20,
+    9,
+    'gray',
+    pageWidth - 40
+  );
+  yPos += 10;
 
-    <div class="field"><span class="label">Full Name:</span><span class="value">${formData.printName || 'N/A'}</span></div>
-    <div class="field"><span class="label">Address:</span><span class="value">${formData.address?.replace(/\n/g, '<br>') || 'N/A'}</span></div>
-    <div class="field"><span class="label">Post Code:</span><span class="value">${formData.postCode || 'N/A'}</span></div>
-    <div class="field"><span class="label">Date:</span><span class="value">${formatDate(formData.declarationDate)}</span></div>
-  </div>
+  // GDPR Consent
+  doc.setFontSize(12);
+  doc.setTextColor(primaryColor);
+  doc.text('Data Protection & Privacy (GDPR Consent)', 20, yPos);
+  yPos += 8;
 
-  <div class="footer">
-    <p><strong>Nick Binmore Dancing</strong></p>
-    <p>IDTA Qualified Ballroom and Latin Dance Instructor</p>
-    <p>This document contains sensitive personal information and should be stored securely.</p>
-  </div>
-</body>
-</html>
-  `;
+  doc.setFontSize(9);
+  doc.setTextColor('black');
+  addText(
+    'By submitting this form, the participant consents to Nick Binmore Dancing storing and processing their personal information in accordance with UK GDPR regulations. The data will be kept securely and used solely for the purpose of managing participation in dance classes and ensuring health and safety. The participant has the right to access, rectify, or request deletion of their personal data at any time.',
+    20,
+    9,
+    'black',
+    pageWidth - 40
+  );
+  addText(
+    'For more information about how we handle data, please refer to our Privacy Policy at nickbinmoredancing.co.uk/privacy or contact us directly.',
+    20,
+    9,
+    'black',
+    pageWidth - 40
+  );
+  yPos += 10;
+
+  // Final Declaration Fields
+  doc.setFontSize(10);
+  addText(`Full Name: ${formData.printName || 'N/A'}`, 20);
+  addText(`Address: ${formData.address?.replace(/\n/g, ', ') || 'N/A'}`, 20);
+  addText(`Post Code: ${formData.postCode || 'N/A'}`, 20);
+  addText(`Date: ${formatDate(formData.declarationDate)}`, 20);
+  yPos += 10;
+
+  // Footer
+  if (yPos > 250) {
+    doc.addPage();
+    yPos = 20;
+  }
+
+  doc.setFontSize(9);
+  doc.setTextColor('gray');
+  doc.text('Nick Binmore Dancing', pageWidth / 2, yPos, { align: 'center' });
+  yPos += 5;
+  doc.text('IDTA Qualified Ballroom and Latin Dance Instructor', pageWidth / 2, yPos, { align: 'center' });
+  yPos += 5;
+  doc.text('This document contains sensitive personal information and should be stored securely.', pageWidth / 2, yPos, { align: 'center' });
+
+  // Return PDF as Buffer
+  const pdfOutput = doc.output('arraybuffer');
+  return Buffer.from(pdfOutput);
 };
 
 export async function POST(request: Request) {
-  let browser;
-
   try {
     const formData = await request.json();
 
@@ -185,48 +239,15 @@ export async function POST(request: Request) {
       throw new Error('GOOGLE_DRIVE_PARQS_FOLDER_ID not configured');
     }
 
-    // Generate HTML content
-    const htmlContent = formatFormDataAsHTML(formData);
-
-    // Convert HTML to PDF using Puppeteer with chrome-aws-lambda for serverless
-    const isProduction = process.env.NODE_ENV === 'production';
-
-    browser = await puppeteer.launch({
-      args: isProduction ? chromium.args : ['--no-sandbox', '--disable-setuid-sandbox'],
-      defaultViewport: {
-        width: 1280,
-        height: 720,
-      },
-      executablePath: isProduction
-        ? await chromium.executablePath()
-        : process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/google-chrome',
-      headless: true,
-    });
-
-    const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-
-    const pdfBuffer = await page.pdf({
-      format: 'A4',
-      printBackground: true,
-      margin: {
-        top: '20px',
-        right: '20px',
-        bottom: '20px',
-        left: '20px',
-      },
-    });
-
-    await browser.close();
-    browser = null;
+    // Generate PDF
+    const pdfBuffer = generatePDF(formData);
 
     // Create file metadata
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const fileName = `PARQ_${formData.name.replace(/\s+/g, '_')}_${timestamp}.pdf`;
 
-    // Convert PDF buffer to proper Buffer and then to stream for Google Drive upload
-    const buffer = Buffer.from(pdfBuffer);
-    const pdfStream = Readable.from([buffer]);
+    // Convert PDF buffer to stream for Google Drive upload
+    const pdfStream = Readable.from([pdfBuffer]);
 
     // Upload PDF to Google Drive
     const fileMetadata = {
@@ -293,10 +314,6 @@ export async function POST(request: Request) {
     });
 
   } catch (error) {
-    if (browser) {
-      await browser.close();
-    }
-
     console.error('Error submitting PAR-Q form:', error);
     return NextResponse.json(
       {
